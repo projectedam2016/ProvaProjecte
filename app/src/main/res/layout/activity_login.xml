@@ -79,6 +79,12 @@
                 android:id="@+id/register_form_button"
                 style="?android:textAppearanceSmall" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visitor entry"
+                android:id="@+id/visitor_button" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

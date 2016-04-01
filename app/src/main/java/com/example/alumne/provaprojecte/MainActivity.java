@@ -2,6 +2,8 @@ package com.example.alumne.provaprojecte;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -65,8 +67,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         }else if(id==R.id.action_logout){
+            if(LoginActivity.user){
             startActivity(new Intent("android.intent.action.LoginActivity"));
-            finish();
+            finish();}else{}
         }
 
         return super.onOptionsItemSelected(item);
@@ -83,7 +86,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.MainActivity"));
             finish();
         } else if (id == R.id.nav_gallery) {
+            if(LoginActivity.user)
             startActivity(new Intent("android.intent.action.ProfileActivity"));
+            else{}
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
