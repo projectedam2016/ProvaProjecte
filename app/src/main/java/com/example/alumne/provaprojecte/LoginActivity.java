@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mVisitorButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                user=false;
                 entrada(view);
             }
         });
