@@ -3,26 +3,26 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_password_repeat"> Repeat password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="prompt_password">Contrassenya</string>
+    <string name="prompt_password_repeat"> Repeteix contrassenya</string>
+    <string name="action_sign_in">Accedeix</string>
+    <string name="action_sign_in_short">Accedeix</string>
+    <string name="error_invalid_email">L\'adreça de correu és invàlida</string>
+    <string name="error_invalid_password">La contrassenya és massa curta</string>
+    <string name="error_incorrect_password">La contrassenya és incorrecta</string>
+    <string name="error_field_required">Aquest camp és requerit</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="action_register">Register</string>
-    <string name="title_activity_main">Search books</string>
-    <string name="prompt_user">Username</string>
+    <string name="action_register">Registra\'t</string>
+    <string name="title_activity_main">Busca llibres</string>
+    <string name="prompt_user">Nom d\'usuari</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_profile">Profile</string>
+    <string name="action_settings">Preferències</string>
+    <string name="title_activity_profile">Perfil</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -30,7 +30,7 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_perfil">PerfilActivity</string>
-    <string name="search_button">Search</string>
+    <string name="search_button">Busca</string>
     <string name="title_activity_not_owned">NotOwnedActivity</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -92,10 +92,10 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <!--menu-->
-    <string name="search_book">Search book</string>
-    <string name="profile">Profile</string>
-    <string name="logout">Log out</string>
+    <string name="search_book">Busca llibre</string>
+    <string name="profile">Perfil</string>
+    <string name="logout">Surt</string>
     <string name="title_activity_owned">OwnedActivity</string>
-    <string name="visitor">You \'re not logged in</string>
-    <string name="visitor_entry">Visitor entry</string>
+    <string name="visitor">No et trobes registrat</string>
+    <string name="visitor_entry">Entrada per a visitants</string>
 </resources>
