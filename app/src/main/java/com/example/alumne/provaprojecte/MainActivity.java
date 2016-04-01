@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity
         }else if(id==R.id.action_logout){
             if(LoginActivity.user){
             startActivity(new Intent("android.intent.action.LoginActivity"));
-            finish();}else{}
+            finish();}else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -88,7 +90,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             if(LoginActivity.user)
             startActivity(new Intent("android.intent.action.ProfileActivity"));
-            else{}
+            else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));}
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
