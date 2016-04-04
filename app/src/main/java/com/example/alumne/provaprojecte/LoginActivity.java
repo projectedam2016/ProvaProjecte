@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -79,14 +78,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-        login=this;
+        login = this;
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    user = true;
                     attemptLogin();
-                    finish();
                     return true;
                 }
                 return false;
@@ -96,10 +95,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                user =true;
-                //entrada(view);
+                user = true;
                 attemptLogin();
-                finish();
             }
         });
         Button mEmailRegisterButton = (Button) findViewById(R.id.register_form_button);
@@ -113,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mVisitorButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                user=false;
+                user = false;
                 entrada(view);
             }
         });
@@ -343,12 +340,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try{
+            try {
                 String username = mEmail;
                 String password = mPassword;
 
-                String link="http://projectedam2016.comxa.com/conexio.php";
-                String data  = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+                String link = "http://projectedam2016.comxa.com/conexio.php";
+                String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
 
                 URL url = new URL(link);
@@ -357,7 +354,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                wr.write( data );
+                wr.write(data);
                 wr.flush();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -366,35 +363,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String line = null;
 
                 // Read Server Response
-                if((line = reader.readLine()).equals(""))
+                if ((line = reader.readLine()).equals("")) {
                     return false;
-                while((line = reader.readLine()) != null)
-                {
+                }
+                while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
                 }
-
-
+                finish();
                 return true;
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 return false;
             }
-            /*try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
-
             // TODO: register the new account here.
         }
 
