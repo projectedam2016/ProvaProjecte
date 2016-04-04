@@ -28,7 +28,8 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="right">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -72,18 +73,56 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_register"
-                android:id="@+id/register_form_button"
-                style="?android:textAppearanceSmall" />
+                android:layout_gravity="center_horizontal"></TableLayout>
 
-            <Button
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/visitor_entry"
-                android:id="@+id/visitor_button" />
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_register"
+                    android:id="@+id/register_form_button"
+                    style="?android:textAppearanceSmall"
+                    android:layout_weight="5" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visitor_entry"
+                    android:id="@+id/visitor_button"
+                    android:layout_weight="5"
+                    style="?android:textAppearanceSmall" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Supervisor"
+                    android:id="@+id/checkSuper"
+                    android:checked="false"
+                    android:layout_weight="5" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Administrator"
+                    android:id="@+id/checkAdmin"
+                    android:checked="false"
+                    android:layout_weight="5" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
