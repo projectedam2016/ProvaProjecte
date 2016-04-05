@@ -98,4 +98,8 @@
     <string name="title_activity_owned">OwnedActivity</string>
     <string name="visitor">No estas registrado</string>
     <string name="visitor_entry">Entrada para visitantes</string>
+    <!--user data-->
+    <string name="user_name">Nombre</string>
+    <string name="surname">Apellido</string>
+    <string name="birthdate">Data de nacimiento</string>
 </resources>

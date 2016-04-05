@@ -98,4 +98,8 @@
     <string name="title_activity_owned">OwnedActivity</string>
     <string name="visitor">You \'re not logged in</string>
     <string name="visitor_entry">Visitor entry</string>
+    <!--user data-->
+    <string name="user_name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="birthdate">Birth date</string>
 </resources>
