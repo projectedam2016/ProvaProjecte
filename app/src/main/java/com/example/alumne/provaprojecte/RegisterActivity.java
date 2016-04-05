@@ -3,6 +3,7 @@ package com.example.alumne.provaprojecte;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -287,6 +288,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
 
             if (success) {
                 startActivity(new Intent("android.intent.action.MainActivity"));
+                ((Activity)LoginActivity.login).finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
