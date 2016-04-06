@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,10 +17,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static Context estat;
+    ListView llistallibres;
+    NewAdapter adaptador;
+    ArrayList<Llibre> llibres;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +51,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        llistallibres=(ListView)findViewById(R.id.listView);
+        llibres=new ArrayList<>();
+        adaptador=new NewAdapter(this,R.layout.item_list,R.id.llibre_name,llibres);
+        llistallibres.setAdapter(adaptador);
+
     }
 
     @Override
@@ -97,5 +117,63 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ListTask task=new ListTask();
+        task.execute();
+    }
+
+    public class ListTask extends AsyncTask<Void, Void, Boolean> {
+        String result;
+
+        ListTask() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+
+                String link = "http://projectedam2016.comxa.com/buscallibres.php";
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+
+                conn.setDoOutput(true);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                result=sb.toString();
+                String[] dades=result.split(" ");
+                for (int i=0;i<dades.length;i+=2){
+                    Llibre llibre=new Llibre();
+                    llibre.setNom(dades[i]);
+                    llibre.setAutor(dades[i+1]);
+                    llibres.add(llibre);
+                }
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+            // TODO: register the new account here.
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            adaptador.notifyDataSetChanged();
+        }
     }
 }
