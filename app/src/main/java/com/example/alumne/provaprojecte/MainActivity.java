@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -55,6 +57,12 @@ public class MainActivity extends AppCompatActivity
         llibres=new ArrayList<>();
         adaptador=new NewAdapter(this,R.layout.item_list,R.id.llibre_name,llibres);
         llistallibres.setAdapter(adaptador);
+        llistallibres.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent("android.intent.action.NotOwnedActivity"));
+            }
+        });
 
     }
 
@@ -122,8 +130,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        if(llibres.isEmpty()){
         ListTask task=new ListTask();
-        task.execute();
+        task.execute();}
     }
 
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
