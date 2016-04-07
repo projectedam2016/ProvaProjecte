@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    public static ArrayList<String> dades;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        dades=new ArrayList<>();
     }
 
     private void populateAutoComplete() {
@@ -366,11 +367,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Read Server Response
                 if ((line = reader.readLine()).equals("")) {
                     return false;
-                }
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                    break;
-                }
+                }else{sb.append(line);}
+                dades.add(sb.toString());
                 finish();
                 return true;
             } catch (Exception e) {

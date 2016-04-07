@@ -61,11 +61,10 @@ public class MainActivity extends AppCompatActivity
         llistallibres.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                idllibre=llibres.get(position).getId();
+                idllibre = llibres.get(position).getId();
                 startActivity(new Intent("android.intent.action.NotOwnedActivity"));
             }
         });
-
     }
 
     @Override
