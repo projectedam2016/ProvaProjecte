@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/TitolText"
-            android:text="Titol:" />
+            android:text="@string/title" />
 
         <TextView
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Autor:"
+            android:text="@string/author"
             android:id="@+id/AutorText" />
 
         <TextView
@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Any publicació:"
+            android:text="@string/publishdate"
             android:id="@+id/AnyText" />
 
         <TextView

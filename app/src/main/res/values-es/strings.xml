@@ -101,5 +101,9 @@
     <!--user data-->
     <string name="user_name">Nombre</string>
     <string name="surname">Apellido</string>
-    <string name="birthdate">Data de nacimiento</string>
+    <string name="birthdate">Fecha de nacimiento</string>
+    <!--book data-->
+    <string name="title">Título:</string>
+    <string name="author">Autor:</string>
+    <string name="publishdate">Fecha de publicación:</string>
 </resources>

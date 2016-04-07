@@ -19,14 +19,16 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/llibre_name"
-            android:layout_gravity="center_vertical|right" />
+            android:layout_gravity="center_vertical"
+            android:singleLine="false" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/llibre_autor"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:background="#737ff2" />
     </LinearLayout>
 
 </LinearLayout>

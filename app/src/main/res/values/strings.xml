@@ -103,4 +103,8 @@
     <string name="user_name">Name</string>
     <string name="surname">Surname</string>
     <string name="birthdate">Birth date</string>
+    <!--book data-->
+    <string name="title">Title:</string>
+    <string name="author">Author:</string>
+    <string name="publishdate">Publish date:</string>
 </resources>

@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity
     public static Context estat;
     ListView llistallibres;
     NewAdapter adaptador;
-    ArrayList<Llibre> llibres;
+    static String idllibre;
+    static ArrayList<Llibre> llibres;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         llistallibres.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                idllibre=llibres.get(position).getId();
                 startActivity(new Intent("android.intent.action.NotOwnedActivity"));
             }
         });
@@ -168,7 +170,7 @@ public class MainActivity extends AppCompatActivity
                 for (int i=0;i<dades.length;i+=3){
                     Llibre llibre=new Llibre();
                     llibre.setNom(dades[i]);
-                    llibre.setAutor(dades[i+1]);
+                    llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i+2]);
                     llibres.add(llibre);
                 }

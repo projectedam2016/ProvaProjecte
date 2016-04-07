@@ -102,4 +102,8 @@
     <string name="user_name">Nom</string>
     <string name="surname">Cognom</string>
     <string name="birthdate">Data de naixement</string>
+    <!--book data-->
+    <string name="title">Títol:</string>
+    <string name="author">Autor:</string>
+    <string name="publishdate">Data de publicació:</string>
 </resources>

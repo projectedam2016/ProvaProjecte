@@ -2,6 +2,7 @@ package com.example.alumne.provaprojecte;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,11 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 
 
 public class NotOwnedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    TextView titol, autor,any, isbn;
+    static Llibre llibre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +44,11 @@ public class NotOwnedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        titol=(TextView)findViewById(R.id.TitolTextData);
+        autor=(TextView)findViewById(R.id.AutorTextData);
+        any=(TextView)findViewById(R.id.AnyTextData);
+        isbn= (TextView)findViewById(R.id.ISBNTextData);
+        llibre=new Llibre();
     }
 
     @Override
@@ -44,6 +59,14 @@ public class NotOwnedActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        BookTask bookTask=new BookTask();
+        bookTask.execute();
+
     }
 
     @Override
@@ -64,10 +87,10 @@ public class NotOwnedActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
-        }else if(id==R.id.action_logout){
+        } else if (id == R.id.action_logout) {
             startActivity(new Intent("android.intent.action.LoginActivity"));
             finish();
-            ((Activity)MainActivity.estat).finish();
+            ((Activity) MainActivity.estat).finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -89,6 +112,65 @@ public class NotOwnedActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class BookTask extends AsyncTask<Void, Void, Boolean> {
+        String result;
+
+        BookTask() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+
+                String link = "http://projectedam2016.comxa.com/buscallibrescodi.php";
+                String id=MainActivity.idllibre;
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                result = sb.toString();
+                String[] dades = result.split(" ");
+                llibre.setNom(dades[0]);
+                llibre.setAutor(dades[1]);
+                llibre.setAny(dades[2]);
+                llibre.setIsbn(dades[3]);
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            titol.setText("  " +llibre.getNom());
+            autor.setText("  " +llibre.getAutor());
+            any.setText("  " +llibre.getAny());
+            isbn.setText("  " +llibre.getIsbn());
+        }
+
     }
 
 }
