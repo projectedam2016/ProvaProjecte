@@ -165,10 +165,11 @@ public class MainActivity extends AppCompatActivity
                 }
                 result=sb.toString();
                 String[] dades=result.split(" ");
-                for (int i=0;i<dades.length;i+=2){
+                for (int i=0;i<dades.length;i+=3){
                     Llibre llibre=new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i+1]);
+                    llibre.setId(dades[i+2]);
                     llibres.add(llibre);
                 }
 

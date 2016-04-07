@@ -6,6 +6,7 @@ package com.example.alumne.provaprojecte;
 public class Llibre {
     String nom;
     String autor;
+    String id;
 
     public String getNom() {
         return nom;
@@ -21,5 +22,13 @@ public class Llibre {
 
     public void setAutor(String autor) {
         this.autor = autor;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

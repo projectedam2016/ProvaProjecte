@@ -18,14 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/llibre_name" />
+            android:id="@+id/llibre_name"
+            android:layout_gravity="center_vertical|right" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/llibre_autor"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
 </LinearLayout>
