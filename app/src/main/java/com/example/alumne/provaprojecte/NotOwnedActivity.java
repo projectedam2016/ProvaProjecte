@@ -164,7 +164,7 @@ public class NotOwnedActivity extends AppCompatActivity
         }
         @Override
         protected void onPostExecute(final Boolean success) {
-
+            setTitle(llibre.getNom());
             titol.setText("  " +llibre.getNom());
             autor.setText("  " +llibre.getAutor());
             any.setText("  " +llibre.getAny());
