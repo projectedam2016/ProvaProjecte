@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -101,12 +98,21 @@ public class NotOwnedActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            startActivity(new Intent("android.intent.action.MainActivity"));
+        if (id == R.id.nav_search) {
             finish();
-        } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent("android.intent.action.ProfileActivity"));
-            finish();
+        } else if (id == R.id.nav_profile) {
+            if(LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.ProfileActivity"));
+                finish();
+            }else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));}
+        } else if(id==R.id.nav_add){
+            if(LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.AddActivity"));
+                finish();
+            }
+            else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));}
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -94,6 +94,7 @@
     <!--menu-->
     <string name="search_book">Busca libro</string>
     <string name="profile">Perfil</string>
+    <string name="add">Agrega libro</string>
     <string name="logout">Sal</string>
     <string name="title_activity_owned">OwnedActivity</string>
     <string name="visitor">No estas registrado</string>

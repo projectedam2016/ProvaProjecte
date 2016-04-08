@@ -1,9 +1,9 @@
 package com.example.alumne.provaprojecte;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.Activity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,24 +12,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.ArrayList;
 
-public class OwnedActivity extends AppCompatActivity
+public class AddActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView titol, autor, any, isbn;
-    static Llibre llibre;
+    public static Context estat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_owned);
+        setContentView(R.layout.activity_add);
+        estat = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,11 +38,7 @@ public class OwnedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        titol = (TextView) findViewById(R.id.TitolTextData);
-        autor = (TextView) findViewById(R.id.AutorTextData);
-        any = (TextView) findViewById(R.id.AnyTextData);
-        isbn = (TextView) findViewById(R.id.ISBNTextData);
-        llibre = new Llibre();
+
     }
 
     @Override
@@ -56,14 +49,6 @@ public class OwnedActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        BookTask bookTask = new BookTask();
-        bookTask.execute();
-
     }
 
     @Override
@@ -85,9 +70,12 @@ public class OwnedActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-            startActivity(new Intent("android.intent.action.LoginActivity"));
-            finish();
-            ((Activity) MainActivity.estat).finish();
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.LoginActivity"));
+                finish();
+            } else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,7 +84,9 @@ public class OwnedActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
+
 
         if (id == R.id.nav_search) {
             finish();
@@ -111,67 +101,6 @@ public class OwnedActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public class BookTask extends AsyncTask<Void, Void, Boolean> {
-        String result;
-
-        BookTask() {
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-
-                String link = "http://projectedam2016.comxa.com/buscallibrescodi.php";
-                String id = ProfileActivity.idllibre;
-                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
-
-                URL url = new URL(link);
-                URLConnection conn = url.openConnection();
-
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
-                wr.write(data);
-                wr.flush();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                    break;
-                }
-                result = sb.toString();
-                String[] dades = result.split(" ");
-                llibre.setNom(dades[0]);
-                llibre.setAutor(dades[1]);
-                llibre.setAny(dades[2]);
-                llibre.setIsbn(dades[3]);
-
-                return true;
-            } catch (Exception e) {
-                System.out.println(5);
-                return false;
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            setTitle(llibre.getNom());
-            titol.setText("  " + llibre.getNom());
-            autor.setText("  " + llibre.getAutor());
-            any.setText("  " + llibre.getAny());
-            isbn.setText("  " + llibre.getIsbn());
-        }
-
     }
 
 }

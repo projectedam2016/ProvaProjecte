@@ -95,10 +95,12 @@
     <!--menu-->
     <string name="search_book">Search book</string>
     <string name="profile">Profile</string>
+    <string name="add">Add book</string>
     <string name="logout">Log out</string>
     <string name="title_activity_owned">OwnedActivity</string>
     <string name="visitor">You \'re not logged in</string>
     <string name="visitor_entry">Visitor entry</string>
+
     <!--user data-->
     <string name="user_name">Name</string>
     <string name="surname">Surname</string>
@@ -107,5 +109,6 @@
     <string name="title">Title:</string>
     <string name="author">Author:</string>
     <string name="publishdate">Publish date:</string>
+    <string name="title_activity_add">AddActivity</string>
 
 </resources>

@@ -2,28 +2,19 @@ package com.example.alumne.provaprojecte;
 
 import android.app.Activity;
 
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,11 +28,12 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView nom,correu,cognom1,cognom2,data;
+    TextView nom, correu, cognom1, cognom2, data;
     ListView llistallibres;
     NewAdapter adaptador;
     static String idllibre;
     static ArrayList<Llibre> llibres;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +49,11 @@ public class ProfileActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        nom=(TextView)findViewById(R.id.NomTextData);
-        correu=(TextView)findViewById(R.id.CorreuTextData);
-        llistallibres=(ListView)findViewById(R.id.listView2);
-        llibres=new ArrayList<>();
-        adaptador=new NewAdapter(this,R.layout.item_list,R.id.llibre_name,llibres);
+        nom = (TextView) findViewById(R.id.NomTextData);
+        correu = (TextView) findViewById(R.id.CorreuTextData);
+        llistallibres = (ListView) findViewById(R.id.listView2);
+        llibres = new ArrayList<>();
+        adaptador = new NewAdapter(this, R.layout.item_list, R.id.llibre_name, llibres);
         llistallibres.setAdapter(adaptador);
         llistallibres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,10 +92,10 @@ public class ProfileActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
-        }else if(id==R.id.action_logout){
+        } else if (id == R.id.action_logout) {
             startActivity(new Intent("android.intent.action.LoginActivity"));
             finish();
-            ((Activity)MainActivity.estat).finish();
+            ((Activity) MainActivity.estat).finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -115,10 +107,13 @@ public class ProfileActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_search) {
             finish();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_profile) {
             startActivity(new Intent("android.intent.action.ProfileActivity"));
+            finish();
+        } else if (id == R.id.nav_add) {
+            startActivity(new Intent("android.intent.action.AddActivity"));
             finish();
         }
 
@@ -130,9 +125,9 @@ public class ProfileActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        ProfileTask profileTask=new ProfileTask();
+        ProfileTask profileTask = new ProfileTask();
         profileTask.execute();
-        ListTask listTask=new ListTask();
+        ListTask listTask = new ListTask();
         listTask.execute();
     }
 
@@ -150,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity
             try {
 
                 String link = "http://projectedam2016.comxa.com/buscarusuari.php";
-                String id=LoginActivity.dades.get(0);
+                String id = LoginActivity.dades.get(0);
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
 
                 URL url = new URL(link);
@@ -181,15 +176,17 @@ public class ProfileActivity extends AppCompatActivity
 
 
         }
+
         @Override
         protected void onPostExecute(final Boolean success) {
-            nom.setText("  "+dades[0]);
-            correu.setText("  "+dades[1]);
+            nom.setText("  " + dades[0]);
+            correu.setText("  " + dades[1]);
             adaptador.notifyDataSetChanged();
 
         }
 
     }
+
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
@@ -201,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity
             // TODO: attempt authentication against a network service.
             try {
                 String link = "http://projectedam2016.comxa.com/buscallibresusuari.php";
-                String id=LoginActivity.dades.get(0);
+                String id = LoginActivity.dades.get(0);
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
@@ -221,13 +218,14 @@ public class ProfileActivity extends AppCompatActivity
                     sb.append(line);
                     break;
                 }
-                result=sb.toString();
-                String[] dades=result.split(" ");
-                for (int i=0;i<dades.length;i+=3){
-                    Llibre llibre=new Llibre();
+                result = sb.toString();
+                String[] dades = result.split(" ");
+                llibres.clear();
+                for (int i = 0; i < dades.length; i += 3) {
+                    Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i + 1]);
-                    llibre.setId(dades[i+2]);
+                    llibre.setId(dades[i + 2]);
                     llibres.add(llibre);
                 }
 

@@ -2,12 +2,8 @@ package com.example.alumne.provaprojecte;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,17 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -113,12 +105,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_search) {
             startActivity(new Intent("android.intent.action.MainActivity"));
             finish();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_profile) {
             if(LoginActivity.user)
             startActivity(new Intent("android.intent.action.ProfileActivity"));
+            else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));}
+        } else if(id==R.id.nav_add){
+            if(LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.AddActivity"));
+            }
             else{
                 startActivity(new Intent("android.intent.action.VisitorActivity"));}
         }
@@ -131,9 +129,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if(llibres.isEmpty()){
+
         ListTask task=new ListTask();
-        task.execute();}
+        task.execute();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        ListTask task=new ListTask();
+        task.execute();
     }
 
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
@@ -166,6 +170,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 result=sb.toString();
                 String[] dades=result.split(" ");
+                llibres.clear();
                 for (int i=0;i<dades.length;i+=3){
                     Llibre llibre=new Llibre();
                     llibre.setNom(dades[i]);
