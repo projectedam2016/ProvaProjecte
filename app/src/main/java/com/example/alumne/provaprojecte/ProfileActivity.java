@@ -131,6 +131,15 @@ public class ProfileActivity extends AppCompatActivity
         listTask.execute();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ProfileTask profileTask = new ProfileTask();
+        profileTask.execute();
+        ListTask listTask = new ListTask();
+        listTask.execute();
+    }
+
     public class ProfileTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
