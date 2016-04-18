@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -26,6 +28,7 @@ public class OwnedActivity extends AppCompatActivity
     TextView titol, autor, any, isbn;
     static Llibre llibre;
     public static String id;
+    Button edita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,13 @@ public class OwnedActivity extends AppCompatActivity
         any = (TextView) findViewById(R.id.AnyTextData);
         isbn = (TextView) findViewById(R.id.ISBNTextData);
         llibre = new Llibre();
+        edita=(Button)findViewById(R.id.button);
+        edita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("android.intent.action.EditBookActivity"));
+            }
+        });
     }
 
     @Override
