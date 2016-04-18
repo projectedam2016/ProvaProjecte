@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView nom, correu, cognom1, cognom2, data;
+    TextView nom, correu, cognom1, cognom2, data,llistabuida;
     ListView llistallibres;
     NewAdapter adaptador;
     static String idllibre;
@@ -52,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity
         nom = (TextView) findViewById(R.id.NomTextData);
         correu = (TextView) findViewById(R.id.CorreuTextData);
         llistallibres = (ListView) findViewById(R.id.listView2);
+        llistabuida=(TextView)findViewById(R.id.EmptyList);
         llibres = new ArrayList<>();
         adaptador = new NewAdapter(this, R.layout.item_list, R.id.llibre_name, llibres);
         llistallibres.setAdapter(adaptador);
@@ -62,6 +63,10 @@ public class ProfileActivity extends AppCompatActivity
                 startActivity(new Intent("android.intent.action.OwnedActivity"));
             }
         });
+        if(llibres.isEmpty()){
+            llistallibres.setVisibility(View.GONE);
+            llistabuida.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

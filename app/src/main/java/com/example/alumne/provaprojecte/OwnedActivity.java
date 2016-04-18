@@ -25,6 +25,7 @@ public class OwnedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView titol, autor, any, isbn;
     static Llibre llibre;
+    public static String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,6 @@ public class OwnedActivity extends AppCompatActivity
             try {
 
                 String link = "http://projectedam2016.comxa.com/buscallibrescodi.php";
-                String id = ProfileActivity.idllibre;
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
 
                 URL url = new URL(link);

@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity
     NewAdapter adaptador;
     static String idllibre;
     static ArrayList<Llibre> llibres;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        estat=this;
+        estat = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,15 +47,20 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        llistallibres=(ListView)findViewById(R.id.listView);
-        llibres=new ArrayList<>();
-        adaptador=new NewAdapter(this,R.layout.item_list,R.id.llibre_name,llibres);
+        llistallibres = (ListView) findViewById(R.id.listView);
+        llibres = new ArrayList<>();
+        adaptador = new NewAdapter(this, R.layout.item_list, R.id.llibre_name, llibres);
         llistallibres.setAdapter(adaptador);
         llistallibres.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 idllibre = llibres.get(position).getId();
-                startActivity(new Intent("android.intent.action.NotOwnedActivity"));
+                if (llibres.get(position).getUsuari().equals(LoginActivity.dades.get(0))) {
+                    OwnedActivity.id=idllibre;
+                    startActivity(new Intent("android.intent.action.OwnedActivity"));
+                } else {
+                    startActivity(new Intent("android.intent.action.NotOwnedActivity"));
+                }
             }
         });
     }
@@ -87,10 +93,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
-        }else if(id==R.id.action_logout){
-            if(LoginActivity.user){
-            startActivity(new Intent("android.intent.action.LoginActivity"));
-            finish();}else{
+        } else if (id == R.id.action_logout) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.LoginActivity"));
+                finish();
+            } else {
                 startActivity(new Intent("android.intent.action.VisitorActivity"));
             }
         }
@@ -109,16 +116,17 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.MainActivity"));
             finish();
         } else if (id == R.id.nav_profile) {
-            if(LoginActivity.user)
-            startActivity(new Intent("android.intent.action.ProfileActivity"));
-            else{
-                startActivity(new Intent("android.intent.action.VisitorActivity"));}
-        } else if(id==R.id.nav_add){
-            if(LoginActivity.user) {
-                startActivity(new Intent("android.intent.action.AddActivity"));
+            if (LoginActivity.user)
+                startActivity(new Intent("android.intent.action.ProfileActivity"));
+            else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
             }
-            else{
-                startActivity(new Intent("android.intent.action.VisitorActivity"));}
+        } else if (id == R.id.nav_add) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.AddActivity"));
+            } else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -130,13 +138,14 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        ListTask task=new ListTask();
+        ListTask task = new ListTask();
         task.execute();
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        ListTask task=new ListTask();
+        ListTask task = new ListTask();
         task.execute();
     }
 
@@ -168,14 +177,15 @@ public class MainActivity extends AppCompatActivity
                     sb.append(line);
                     break;
                 }
-                result=sb.toString();
-                String[] dades=result.split(" ");
+                result = sb.toString();
+                String[] dades = result.split(" ");
                 llibres.clear();
-                for (int i=0;i<dades.length;i+=3){
-                    Llibre llibre=new Llibre();
+                for (int i = 0; i < dades.length; i += 4) {
+                    Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i + 1]);
-                    llibre.setId(dades[i+2]);
+                    llibre.setId(dades[i + 2]);
+                    llibre.setUsuari(dades[i + 3]);
                     llibres.add(llibre);
                 }
 

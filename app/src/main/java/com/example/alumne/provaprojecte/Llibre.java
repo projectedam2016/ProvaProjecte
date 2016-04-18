@@ -9,6 +9,7 @@ public class Llibre {
     String id;
     String any;
     String isbn;
+    String usuari;
 
     public String getNom() {
         return nom;
@@ -48,5 +49,13 @@ public class Llibre {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public String getUsuari() {
+        return usuari;
+    }
+
+    public void setUsuari(String usuari) {
+        this.usuari = usuari;
     }
 }
