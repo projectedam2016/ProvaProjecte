@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -16,10 +18,14 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,14 +34,17 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView, mRepeatPasswordView, mSurname1View, mSurname2View, mNameView;
+    private EditText mPasswordView, mRepeatPasswordView, mSurname1View, mSurname2View, mNameView, dateView;
     private View mProgressView;
     private View mLoginFormView;
     private UserRegisterTask mAuthTask = null;
+    private Calendar calendar;
+    private int year, month, day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +60,24 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginActivity.user = true;
                 attemptLogin();
             }
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        dateView=(EditText)findViewById(R.id.date);
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        showDate(year, month + 1, day);
+        dateView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                setDate(v);
+                return false;
+            }
+        });
 
     }
 
@@ -140,6 +161,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
         String surname1=mSurname1View.getText().toString();
         String surname2=mSurname2View.getText().toString();
         String name=mNameView.getText().toString();
+        String date=dateView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -190,7 +212,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserRegisterTask(email, password,name,surname1,surname2);
+            mAuthTask = new UserRegisterTask(email, password,name,surname1,surname2,date);
             mAuthTask.execute((Void) null);
         }
     }
@@ -217,6 +239,39 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
+    public void setDate(View view) {
+        showDialog(999);
+        Toast.makeText(getApplicationContext(), "ca", Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        // TODO Auto-generated method stub
+        if (id == 999) {
+            return new DatePickerDialog(this, myDateListener, year, month, day);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            showDate(arg1, arg2+1, arg3);
+        }
+    };
+
+    private void showDate(int year, int month, int day) {
+        dateView.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -225,13 +280,15 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
         private final String mName;
         private final String mSurname1;
         private final String mSurname2;
+        private final String date;
 
-        UserRegisterTask(String email, String password, String name, String surname1, String surname2) {
+        UserRegisterTask(String email, String password, String name, String surname1, String surname2,String date) {
             mEmail = email;
             mPassword = password;
             mName=name;
             mSurname1=surname1;
             mSurname2=surname2;
+            this.date=date;
         }
 
         @Override
@@ -250,6 +307,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
                 data += "&" + URLEncoder.encode("surname1", "UTF-8") + "=" + URLEncoder.encode(surname1, "UTF-8");
                 data += "&" + URLEncoder.encode("surname2", "UTF-8") + "=" + URLEncoder.encode(surname2, "UTF-8");
                 data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8");
+                data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
 
 
                 URL url = new URL(link);
@@ -287,8 +345,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
             showProgress(false);
 
             if (success) {
-                startActivity(new Intent("android.intent.action.MainActivity"));
-                ((Activity)LoginActivity.login).finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
