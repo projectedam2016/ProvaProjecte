@@ -190,7 +190,6 @@ public class AddActivity extends AppCompatActivity
             // TODO: attempt authentication against a network service.
 
             try {
-
                 String link = "http://projectedam2016.comxa.com/creallibre.php";
                 String id = LoginActivity.dades.get(0);
                 String data = URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
@@ -216,7 +215,6 @@ public class AddActivity extends AppCompatActivity
                     sb.append(line);
                     break;
                 }
-                System.out.println(sb);
                 return true;
             } catch (Exception e) {
                 return false;

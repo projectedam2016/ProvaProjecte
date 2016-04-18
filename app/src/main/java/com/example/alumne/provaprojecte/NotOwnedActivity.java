@@ -159,9 +159,9 @@ public class NotOwnedActivity extends AppCompatActivity
                 String[] dades = result.split(" ");
                 llibre.setNom(dades[0]);
                 llibre.setAutor(dades[1]);
-                llibre.setAny(dades[2]);
                 llibre.setIsbn(dades[3]);
-
+                String[] dadesdata=dades[2].split("-");
+                llibre.setAny(dadesdata[2] + "/" + dadesdata[1] + "/" + dadesdata[0]);
                 return true;
             } catch (Exception e) {
                 return false;
