@@ -31,7 +31,6 @@ public class ProfileActivity extends AppCompatActivity
     TextView nom, correu, cognom1, cognom2, data,llistabuida;
     ListView llistallibres;
     NewAdapter adaptador;
-    static String idllibre;
     static ArrayList<Llibre> llibres;
 
     @Override
@@ -59,14 +58,10 @@ public class ProfileActivity extends AppCompatActivity
         llistallibres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                idllibre = llibres.get(position).getId();
+                OwnedActivity.id = llibres.get(position).getId();
                 startActivity(new Intent("android.intent.action.OwnedActivity"));
             }
         });
-        if(llibres.isEmpty()){
-            llistallibres.setVisibility(View.GONE);
-            llistabuida.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -143,6 +138,7 @@ public class ProfileActivity extends AppCompatActivity
         profileTask.execute();
         ListTask listTask = new ListTask();
         listTask.execute();
+
     }
 
     public class ProfileTask extends AsyncTask<Void, Void, Boolean> {
@@ -203,7 +199,6 @@ public class ProfileActivity extends AppCompatActivity
 
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
         String result;
-
         ListTask() {
         }
 
@@ -218,7 +213,6 @@ public class ProfileActivity extends AppCompatActivity
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
 
                 wr.flush();
@@ -232,9 +226,9 @@ public class ProfileActivity extends AppCompatActivity
                     sb.append(line);
                     break;
                 }
+                llibres.clear();
                 result = sb.toString();
                 String[] dades = result.split(" ");
-                llibres.clear();
                 for (int i = 0; i < dades.length; i += 3) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
@@ -242,7 +236,6 @@ public class ProfileActivity extends AppCompatActivity
                     llibre.setId(dades[i + 2]);
                     llibres.add(llibre);
                 }
-
                 return true;
             } catch (Exception e) {
                 return false;
@@ -254,6 +247,13 @@ public class ProfileActivity extends AppCompatActivity
         protected void onPostExecute(final Boolean success) {
 
             adaptador.notifyDataSetChanged();
+            if(llibres.isEmpty()){
+                llistallibres.setVisibility(View.GONE);
+                llistabuida.setVisibility(View.VISIBLE);
+            }else{
+                llistallibres.setVisibility(View.VISIBLE);
+                llistabuida.setVisibility(View.GONE);
+            }
         }
     }
 
