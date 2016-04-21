@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,7 @@ public class AddActivity extends AppCompatActivity
     private EditText dateView,isbn, title, author;
     private int year, month, day;
     Button registra;
+    private AddTask addTask=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class AddActivity extends AppCompatActivity
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year, month + 1, day);
+
         dateView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -79,9 +82,7 @@ public class AddActivity extends AppCompatActivity
         registra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddTask addTask=new AddTask();
-                addTask.execute();
-                finish();
+                campNo();
             }
         });
     }
@@ -145,6 +146,38 @@ public class AddActivity extends AppCompatActivity
         showDialog(999);
         Toast.makeText(getApplicationContext(), "ca", Toast.LENGTH_SHORT)
                 .show();
+    }
+    private void campNo(){
+        if (addTask != null) {
+            return;
+        }
+
+        // Reset errors.
+        title.setError(null);
+        isbn.setError(null);
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(title.getText().toString())) {
+            title.setError(getString(R.string.error_field_required));
+            focusView = title;
+            cancel = true;
+        }
+        // Check for a valid email address.
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            addTask=new AddTask();
+            addTask.execute();
+            finish();
+        }
     }
 
     @Override
