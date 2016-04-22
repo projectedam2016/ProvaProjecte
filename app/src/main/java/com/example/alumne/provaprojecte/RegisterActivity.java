@@ -316,20 +316,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
 
                 wr.write(data);
                 wr.flush();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                // Read Server Response
-                if ((line = reader.readLine()).equals("")) {
-                    return false;
-                }
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                    break;
-                }
                 finish();
                 return true;
             } catch (Exception e) {
