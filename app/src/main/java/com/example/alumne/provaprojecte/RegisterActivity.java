@@ -241,8 +241,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
     }
     public void setDate(View view) {
         showDialog(999);
-        Toast.makeText(getApplicationContext(), "ca", Toast.LENGTH_SHORT)
-                .show();
     }
 
     @Override
