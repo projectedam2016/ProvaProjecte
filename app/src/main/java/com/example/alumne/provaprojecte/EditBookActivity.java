@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
     static Llibre llibre;
     private Calendar calendar;
     private int year, month, day;
+    static String[] dadesdata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +55,6 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         autor=(EditText)findViewById(R.id.AutorText);
         data=(EditText)findViewById(R.id.AnyText);
         calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month + 1, day);
         llibre = new Llibre();
 
         data.setOnTouchListener(new View.OnTouchListener() {
@@ -64,6 +62,14 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
             public boolean onTouch(View v, MotionEvent event) {
                 setDate(v);
                 return false;
+            }
+        });
+        Button edita=(Button)findViewById(R.id.editbookbutton);
+        edita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditTask editTask=new EditTask();
+                editTask.execute();
             }
         });
     }
@@ -164,6 +170,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
+
         BookTask() {
         }
 
@@ -200,7 +207,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 llibre.setNom(dades[0]);
                 llibre.setAutor(dades[1]);
                 llibre.setIsbn(dades[3]);
-                String[] dadesdata = dades[2].split("-");
+                dadesdata = dades[2].split("-");
                 llibre.setAny(dadesdata[2] + "/" + dadesdata[1] + "/" + dadesdata[0]);
                 return true;
             } catch (Exception e) {
@@ -212,10 +219,65 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         @Override
         protected void onPostExecute(final Boolean success) {
             setTitle(llibre.getNom());
-            titol.setText("  " + llibre.getNom());
-            autor.setText("  " + llibre.getAutor());
-            data.setText("  " + llibre.getAny());
-            isbn.setText("  " + llibre.getIsbn());
+            titol.setText(llibre.getNom());
+            autor.setText(llibre.getAutor());
+            day=Integer.parseInt(dadesdata[2]);
+            month=Integer.parseInt(dadesdata[1]);
+            year=Integer.parseInt(dadesdata[0]);
+            isbn.setText(llibre.getIsbn());
+            showDate(year, month + 1, day);
         }
+    }
+    public class EditTask extends AsyncTask<Void, Void, Boolean> {
+        String result;
+        String[] dades;
+        String isbnt= isbn.getText().toString();
+        String namet=titol.getText().toString();
+        String authort=autor.getText().toString();
+        String date=data.getText().toString();
+
+        EditTask() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+                String link = "http://projectedam2016.comxa.com/editarllibre.php";
+                String data = URLEncoder.encode("isbn", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
+                data+= "&" +URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
+                data+= "&" +URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
+                data+= "&" +URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
+                data+= "&" +URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                wr.write(data);
+                wr.flush();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            finish();
+        }
+
     }
 }

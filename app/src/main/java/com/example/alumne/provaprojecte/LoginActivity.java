@@ -118,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         dades=new ArrayList<>();
+        dades.add(null);
     }
 
     private void populateAutoComplete() {
@@ -368,7 +369,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if ((line = reader.readLine()).equals("")) {
                     return false;
                 }else{sb.append(line);}
-                dades.add(sb.toString());
+                dades.set(0,sb.toString());
                 finish();
                 return true;
             } catch (Exception e) {
