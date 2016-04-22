@@ -111,5 +111,10 @@
     <string name="author">Author:</string>
     <string name="publishdate">Publish date:</string>
     <string name="title_activity_add">AddActivity</string>
+    <string name="title_activity_modify">ModifyActivity</string>
+    <!--modify-->
+    <string name="modify">If you abandon this page all changes will be lost. Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

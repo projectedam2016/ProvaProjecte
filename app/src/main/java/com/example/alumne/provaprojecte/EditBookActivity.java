@@ -35,6 +35,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
     private Calendar calendar;
     private int year, month, day;
     static String[] dadesdata;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +51,10 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        isbn=(EditText)findViewById(R.id.ISBNText);
-        titol=(EditText)findViewById(R.id.TitolText);
-        autor=(EditText)findViewById(R.id.AutorText);
-        data=(EditText)findViewById(R.id.AnyText);
+        isbn = (EditText) findViewById(R.id.ISBNText);
+        titol = (EditText) findViewById(R.id.TitolText);
+        autor = (EditText) findViewById(R.id.AutorText);
+        data = (EditText) findViewById(R.id.AnyText);
         calendar = Calendar.getInstance();
         llibre = new Llibre();
 
@@ -64,18 +65,20 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 return false;
             }
         });
-        Button edita=(Button)findViewById(R.id.editbookbutton);
+        Button edita = (Button) findViewById(R.id.editbookbutton);
         edita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditTask editTask=new EditTask();
+                EditTask editTask = new EditTask();
                 editTask.execute();
             }
         });
     }
+
     public void setDate(View view) {
         showDialog(999);
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -98,7 +101,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-            showDate(arg1, arg2+1, arg3);
+            showDate(arg1, arg2 + 1, arg3);
         }
     };
 
@@ -126,12 +129,9 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-            if (LoginActivity.user) {
-                startActivity(new Intent("android.intent.action.LoginActivity"));
-                finish();
-            } else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.LoginActivity");
+            ModifyActivity.context=this;
         }
 
         return super.onOptionsItemSelected(item);
@@ -167,6 +167,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
@@ -221,20 +222,21 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
             setTitle(llibre.getNom());
             titol.setText(llibre.getNom());
             autor.setText(llibre.getAutor());
-            day=Integer.parseInt(dadesdata[2]);
-            month=Integer.parseInt(dadesdata[1]);
-            year=Integer.parseInt(dadesdata[0]);
+            day = Integer.parseInt(dadesdata[2]);
+            month = Integer.parseInt(dadesdata[1]);
+            year = Integer.parseInt(dadesdata[0]);
             isbn.setText(llibre.getIsbn());
             showDate(year, month + 1, day);
         }
     }
+
     public class EditTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
-        String isbnt= isbn.getText().toString();
-        String namet=titol.getText().toString();
-        String authort=autor.getText().toString();
-        String date=data.getText().toString();
+        String isbnt = isbn.getText().toString();
+        String namet = titol.getText().toString();
+        String authort = autor.getText().toString();
+        String date = data.getText().toString();
 
         EditTask() {
         }
@@ -246,10 +248,10 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
             try {
                 String link = "http://projectedam2016.comxa.com/editarllibre.php";
                 String data = URLEncoder.encode("isbn", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
-                data+= "&" +URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
-                data+= "&" +URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
-                data+= "&" +URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
-                data+= "&" +URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
+                data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
+                data += "&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
+                data += "&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
+                data += "&" + URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
 
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
