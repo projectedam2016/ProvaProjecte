@@ -85,7 +85,10 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=null;
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
         }
     }
 

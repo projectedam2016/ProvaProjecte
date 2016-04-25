@@ -22,8 +22,9 @@ public class ModifyActivity extends Activity {
             public void onClick(View view) {
                 for (Context c:context) {
                     ((Activity)c).finish();
-                    startActivity(intent);
                 }
+                if(intent!=null)
+                startActivity(intent);
                 finish();
             }
         });

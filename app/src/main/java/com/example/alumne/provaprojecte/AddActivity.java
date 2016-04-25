@@ -93,7 +93,10 @@ public class AddActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=null;
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
         }
     }
 
@@ -109,7 +112,6 @@ public class AddActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-
                 startActivity(new Intent("android.intent.action.ModifyActivity"));
                 ModifyActivity.intent = new Intent("android.intent.action.LoginActivity");
                 ModifyActivity.context.clear();
@@ -128,13 +130,21 @@ public class AddActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_search) {
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.MainActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(MainActivity.estat);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent("android.intent.action.ProfileActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.ProfileActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
         } else if (id == R.id.nav_add) {
-            startActivity(new Intent("android.intent.action.AddActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.AddActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
