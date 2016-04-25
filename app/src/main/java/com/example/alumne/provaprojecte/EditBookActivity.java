@@ -131,7 +131,10 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.action_logout) {
             startActivity(new Intent("android.intent.action.ModifyActivity"));
             ModifyActivity.intent = new Intent("android.intent.action.LoginActivity");
-            ModifyActivity.context=this;
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(OwnedActivity.estat);
+            ModifyActivity.context.add(MainActivity.estat);
         }
 
         return super.onOptionsItemSelected(item);
@@ -153,14 +156,25 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
 
 
         if (id == R.id.nav_search) {
-            startActivity(new Intent("android.intent.action.MainActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.MainActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(OwnedActivity.estat);
+            ModifyActivity.context.add(MainActivity.estat);
+
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent("android.intent.action.ProfileActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.ProfileActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(OwnedActivity.estat);
         } else if (id == R.id.nav_add) {
-            startActivity(new Intent("android.intent.action.AddActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.AddActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(OwnedActivity.estat);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

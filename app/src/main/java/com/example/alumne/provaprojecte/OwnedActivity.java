@@ -1,6 +1,7 @@
 package com.example.alumne.provaprojecte;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class OwnedActivity extends AppCompatActivity
     TextView titol, autor, any, isbn;
     static Llibre llibre;
     public static String id;
+    public static Context estat;
     Button edita;
 
     @Override
@@ -43,7 +45,7 @@ public class OwnedActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        estat=this;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         titol = (TextView) findViewById(R.id.TitolTextData);

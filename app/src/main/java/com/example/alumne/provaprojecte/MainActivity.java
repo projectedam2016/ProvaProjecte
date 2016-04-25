@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 idllibre = llibres.get(position).getId();
-                if (llibres.get(position).getUsuari().equals(LoginActivity.dades.get(0))) {
+                if (llibres.get(position).getUsuari().equals(LoginActivity.dades)) {
                     OwnedActivity.id=idllibre;
                     startActivity(new Intent("android.intent.action.OwnedActivity"));
                 } else {

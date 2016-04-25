@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class ModifyActivity extends Activity {
     public static Intent intent;
-    public static Context context;
+    public static ArrayList<Context> context=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +20,10 @@ public class ModifyActivity extends Activity {
         buttonok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((Activity)context).finish();
+                for (Context c:context) {
+                    ((Activity)c).finish();
+                    startActivity(intent);
+                }
                 finish();
             }
         });

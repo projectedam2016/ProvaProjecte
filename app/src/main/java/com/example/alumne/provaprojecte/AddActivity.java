@@ -222,7 +222,7 @@ public class AddActivity extends AppCompatActivity
 
             try {
                 String link = "http://projectedam2016.comxa.com/creallibre.php";
-                String id = LoginActivity.dades.get(0);
+                String id = LoginActivity.dades;
                 String data = URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
                 data+= "&" +URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
                 data+= "&" +URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");

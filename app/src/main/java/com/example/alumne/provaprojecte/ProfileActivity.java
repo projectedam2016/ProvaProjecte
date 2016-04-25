@@ -155,7 +155,7 @@ public class ProfileActivity extends AppCompatActivity
             try {
 
                 String link = "http://projectedam2016.comxa.com/buscarusuari.php";
-                String id = LoginActivity.dades.get(0);
+                String id = LoginActivity.dades;
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
 
                 URL url = new URL(link);
@@ -207,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity
             // TODO: attempt authentication against a network service.
             try {
                 String link = "http://projectedam2016.comxa.com/buscallibresusuari.php";
-                String id = LoginActivity.dades.get(0);
+                String id = LoginActivity.dades;
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();

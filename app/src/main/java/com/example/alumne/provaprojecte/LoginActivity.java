@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    public static ArrayList<String> dades;
+    public static String dades;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -117,8 +117,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        dades=new ArrayList<>();
-        dades.add(null);
     }
 
     private void populateAutoComplete() {
@@ -333,6 +331,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private String linea;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -369,7 +368,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if ((line = reader.readLine()).equals("")) {
                     return false;
                 }else{sb.append(line);}
-                dades.set(0,sb.toString());
+                linea=sb.toString();
                 finish();
                 return true;
             } catch (Exception e) {
@@ -384,7 +383,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 startActivity(new Intent("android.intent.action.MainActivity"));
-
+                dades=linea;
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
