@@ -109,12 +109,12 @@ public class AddActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-            if (LoginActivity.user) {
-                startActivity(new Intent("android.intent.action.LoginActivity"));
-                finish();
-            } else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+
+                startActivity(new Intent("android.intent.action.ModifyActivity"));
+                ModifyActivity.intent = new Intent("android.intent.action.LoginActivity");
+                ModifyActivity.context.clear();
+                ModifyActivity.context.add(this);
+                ModifyActivity.context.add(MainActivity.estat);
         }
 
         return super.onOptionsItemSelected(item);
