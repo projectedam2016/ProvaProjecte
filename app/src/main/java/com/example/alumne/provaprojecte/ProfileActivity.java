@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,6 +61,13 @@ public class ProfileActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OwnedActivity.id = llibres.get(position).getId();
                 startActivity(new Intent("android.intent.action.OwnedActivity"));
+            }
+        });
+        Button editar=(Button)findViewById(R.id.botoEditar);
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("android.intent.action.EditUserActivity"));
             }
         });
     }

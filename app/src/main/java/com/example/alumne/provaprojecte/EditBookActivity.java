@@ -57,7 +57,6 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         data = (EditText) findViewById(R.id.AnyText);
         calendar = Calendar.getInstance();
         llibre = new Llibre();
-
         data.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
