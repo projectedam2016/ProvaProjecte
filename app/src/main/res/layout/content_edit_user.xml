@@ -93,7 +93,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guarda canvis"
+                android:text="@string/savechange"
                 android:id="@+id/botoeditar" />
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                     android:id="@+id/oldpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
+                    android:hint="@string/prompt_old_password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -152,7 +152,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Button"
+                android:text="@string/changepass"
                 android:id="@+id/button3" />
         </LinearLayout>
     </ScrollView>

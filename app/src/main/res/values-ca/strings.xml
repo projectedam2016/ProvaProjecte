@@ -108,4 +108,13 @@
     <string name="title">Títol:</string>
     <string name="author">Autor:</string>
     <string name="publishdate">Data de publicació:</string>
+    <!--modify-->
+    <string name="modify">Si abandones la pàgina tots els canvis es perdran. Estas segur?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <!--edit button-->
+    <string name="editprofile">Edita perfil</string>
+    <string name="editbook">Edita llibre</string>
+    <string name="savechange">Guarda els canvis</string>
+    <string name="changepass">Canvia la contrasenya</string>
 </resources>

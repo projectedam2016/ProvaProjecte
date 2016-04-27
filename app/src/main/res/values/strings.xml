@@ -3,6 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="prompt_old_password">Old password</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_password_repeat"> Repeat password</string>
     <string name="action_sign_in">Sign in</string>
@@ -110,11 +111,17 @@
     <string name="title">Title:</string>
     <string name="author">Author:</string>
     <string name="publishdate">Publish date:</string>
+
     <string name="title_activity_add">AddActivity</string>
     <string name="title_activity_modify">ModifyActivity</string>
     <!--modify-->
     <string name="modify">If you abandon this page all changes will be lost. Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <!--edit button-->
+    <string name="editprofile">Edit profile</string>
+    <string name="editbook">Edit book</string>
+    <string name="savechange">Save changes</string>
+    <string name="changepass">Change password</string>
 
 </resources>
