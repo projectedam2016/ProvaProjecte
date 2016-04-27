@@ -33,6 +33,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     private Calendar calendar;
     private int year, month, day;
     static String[] dadesdata;
+    Button edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,17 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             }
         });
         calendar = Calendar.getInstance();
+        BookTask bookTask=new BookTask();
+        bookTask.execute();
+        edit=(Button)findViewById(R.id.botoeditar);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditTask editTask=new EditTask();
+                editTask.execute();
+                finish();
+            }
+        });
     }
     public void setDate(View view) {
         showDialog(999);
@@ -164,8 +176,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             try {
 
                 String link = "http://projectedam2016.comxa.com/buscarusuari.php";
-                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
-                System.out.println(OwnedActivity.id);
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
 
@@ -187,7 +198,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 }
                 result = sb.toString();
                 dades= result.split(" ");
-                dadesdata = dades[2].split("-");
+                dadesdata = dades[4].split("-");
                 return true;
             } catch (Exception e) {
                 return false;
@@ -199,8 +210,9 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         protected void onPostExecute(final Boolean success) {
             setTitle(dades[0]);
             user.setText(dades[0]);
-            surname1.setText(dades[1]);
-            surname2.setText(dades[2]);
+            email.setText(dades[1]);
+            surname1.setText(dades[2]);
+            surname2.setText(dades[3]);
             day = Integer.parseInt(dadesdata[2]);
             month = Integer.parseInt(dadesdata[1]);
             year = Integer.parseInt(dadesdata[0]);
@@ -211,6 +223,11 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     public class EditTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
+        String nom=user.getText().toString();
+        String correu=email.getText().toString();
+        String cognom1=surname1.getText().toString();
+        String cognom2=surname2.getText().toString();
+        String datas=date.getText().toString();
 
         EditTask() {
         }
@@ -220,19 +237,20 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             // TODO: attempt authentication against a network service.
 
             try {
-                String link = "http://projectedam2016.comxa.com/editarllibre.php";
-                //String data = URLEncoder.encode("isbn", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
-                //data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
-                //data += "&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
-                //data += "&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
-                //data += "&" + URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
+                String link = "http://projectedam2016.comxa.com/editarusuari.php";
+                String data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(nom, "UTF-8");
+                data += "&" + URLEncoder.encode("surname1", "UTF-8") + "=" + URLEncoder.encode(cognom1, "UTF-8");
+                data += "&" + URLEncoder.encode("surname2", "UTF-8") + "=" + URLEncoder.encode(cognom2, "UTF-8");
+                data += "&" + URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(correu, "UTF-8");
+                data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(datas, "UTF-8");
+                data += "&" + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
 
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                //wr.write(data);
+                wr.write(data);
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
