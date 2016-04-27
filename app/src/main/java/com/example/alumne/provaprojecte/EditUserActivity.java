@@ -1,17 +1,26 @@
 package com.example.alumne.provaprojecte;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,14 +35,17 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class EditUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    EditText user,surname1,surname2,email,date;
+    EditText user,surname1,surname2,email,date,old,current,repeat;
     private Calendar calendar;
     private int year, month, day;
     static String[] dadesdata;
-    Button edit;
+    Button edit, pass;
+    private PassTask passTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +66,9 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         surname2=(EditText)findViewById(R.id.surname2);
         email=(EditText)findViewById(R.id.email);
         date=(EditText)findViewById(R.id.date);
+        old=(EditText)findViewById(R.id.oldpassword);
+        current=(EditText)findViewById(R.id.password);
+        repeat=(EditText)findViewById(R.id.repeat_password);
         date.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -71,6 +86,13 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 EditTask editTask=new EditTask();
                 editTask.execute();
                 finish();
+            }
+        });
+        pass=(Button)findViewById(R.id.changepass);
+        pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptLogin();
             }
         });
     }
@@ -172,6 +194,64 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void attemptLogin() {
+        if (passTask != null) {
+            return;
+        }
+
+        // Reset errors.
+        old.setError(null);
+        current.setError(null);
+        repeat.setError(null);
+
+        // Store values at the time of the login attempt.
+        String oldpass = old.getText().toString();
+        String currentpass = current.getText().toString();
+        String repeatpassword = repeat.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(oldpass)) {
+            old.setError(getString(R.string.error_field_required));
+            focusView = old;
+            cancel = true;
+        }
+        if (!currentpass.equals(repeatpassword)) {
+            repeat.setError(getString(R.string.repeat_password));
+            focusView=repeat;
+            cancel=true;
+        }
+        if (TextUtils.isEmpty(currentpass)) {
+            repeat.setError(getString(R.string.error_field_required));
+            focusView = repeat;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(repeatpassword)) {
+            repeat.setError(getString(R.string.error_field_required));
+            focusView = repeat;
+            cancel = true;
+        }
+        if(!TextUtils.isEmpty(currentpass)&&currentpass.length()<=4){
+            current.setError(getString(R.string.error_invalid_password));
+            focusView = current;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            passTask = new PassTask();
+            passTask.execute();
+        }
+    }
+
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades ;
@@ -281,9 +361,9 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     public class PassTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
-        String oldpass;
-        String pass;
-        String newpass;
+        String oldpass=old.getText().toString();
+        String pass=current.getText().toString();
+
 
         PassTask() {
         }
@@ -293,11 +373,10 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             // TODO: attempt authentication against a network service.
 
             try {
-                String link = "http://projectedam2016.comxa.com/editarusuari.php";
+                String link = "http://projectedam2016.comxa.com/editapass.php";
                 String data = URLEncoder.encode("oldpass", "UTF-8") + "=" + URLEncoder.encode(oldpass, "UTF-8");
                 data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
-                data += "&" + URLEncoder.encode("repeatpass", "UTF-8") + "=" + URLEncoder.encode(newpass, "UTF-8");
-
+                data += "&" + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -311,13 +390,25 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 String line = null;
 
                 // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                    break;
+                while(!(line = reader.readLine()).equals("")) {
+                    if(line.equals("1")) {
+                        return true;
+                    }if(line.equals("0"))
+                        return false;
                 }
                 return true;
             } catch (Exception e) {
                 return false;
+            }
+        }
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            passTask = null;
+            if (success) {
+                finish();
+            } else {
+                old.setError(getString(R.string.error_incorrect_password));
+                old.requestFocus();
             }
         }
     }
