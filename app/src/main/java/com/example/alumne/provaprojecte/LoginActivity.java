@@ -28,6 +28,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -63,14 +64,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private SuperLoginTask superTask=null;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     public static boolean user = false;
+    public static boolean superu = false;
     public static Context login;
     public static String id;
+    CheckBox superv, admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        superv = (CheckBox) findViewById(R.id.checkSuper);
+        admin = (CheckBox) findViewById(R.id.checkAdmin);
+        superu=false;
     }
 
     private void populateAutoComplete() {
@@ -210,8 +217,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute();
+            if (superv.isChecked()) {
+                superTask=new SuperLoginTask(email,password);
+                superTask.execute();
+            } else {
+                mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute();
+            }
         }
     }
 
@@ -367,8 +379,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Read Server Response
                 if ((line = reader.readLine()).equals("")) {
                     return false;
-                }else{sb.append(line);}
-                linea=sb.toString();
+                } else {
+                    sb.append(line);
+                }
+                linea = sb.toString();
                 finish();
                 return true;
             } catch (Exception e) {
@@ -383,7 +397,84 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 startActivity(new Intent("android.intent.action.MainActivity"));
-                dades=linea;
+                dades = linea;
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    public class SuperLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+        private final String mSuperv;
+        private String linea;
+
+        SuperLoginTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+            mSuperv="1";
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+                String username = mEmail;
+                String password = mPassword;
+
+                String link = "http://projectedam2016.comxa.com/conexiosu.php";
+                String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+                data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+                data += "&" + URLEncoder.encode("supervisor", "UTF-8") + "=" + URLEncoder.encode(mSuperv, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                if ((line = reader.readLine()).equals("")) {
+                    return false;
+                } else {
+                    sb.append(line);
+                }
+                linea = sb.toString();
+                finish();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            showProgress(false);
+
+            if (success) {
+                startActivity(new Intent("android.intent.action.MainActivity"));
+                dades = linea;
+                superu=true;
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

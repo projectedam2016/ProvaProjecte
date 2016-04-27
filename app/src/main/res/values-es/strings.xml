@@ -1,6 +1,7 @@
 <resources>
+    <!--ProjecteTitle-->
     <string name="app_name">ProvaProjecte</string>
-
+    <!--Others-->
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Contraseña</string>
@@ -10,6 +11,7 @@
     <string name="error_invalid_email">El correo es inválido</string>
     <string name="error_invalid_password">La contraseña es demasiado corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_super_password">La contraseña es incorrecta o no eres supervisor</string>
     <string name="error_field_required">Se requiere este campo</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -29,7 +31,6 @@
     <string name="title_section3">Section 3</string>
 
     <string name="action_example">Example action</string>
-    <string name="title_activity_perfil">PerfilActivity</string>
     <string name="search_button">Busca</string>
     <string name="title_activity_not_owned">NotOwnedActivity</string>
     <string name="title_activity_settings">Settings</string>

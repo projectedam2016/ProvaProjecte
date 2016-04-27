@@ -1,52 +1,24 @@
 <resources>
+    <!--ProjecteTitle-->
     <string name="app_name">ProvaProjecte</string>
-
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Contrassenya</string>
-    <string name="prompt_password_repeat"> Repeteix contrassenya</string>
-    <string name="action_sign_in">Accedeix</string>
-    <string name="action_sign_in_short">Accedeix</string>
-    <string name="error_invalid_email">L\'adreça de correu és invàlida</string>
-    <string name="error_invalid_password">La contrassenya és massa curta</string>
-    <string name="error_incorrect_password">La contrassenya és incorrecta</string>
-    <string name="error_field_required">Aquest camp és requerit</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="action_register">Registra\'t</string>
-    <string name="title_activity_main">Busca llibres</string>
-    <string name="prompt_user">Nom d\'usuari</string>
-
+    <!--Others-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Preferències</string>
-    <string name="title_activity_profile">Perfil</string>
-
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-
     <string name="action_example">Example action</string>
-    <string name="title_activity_perfil">PerfilActivity</string>
-    <string name="search_button">Busca</string>
-    <string name="title_activity_not_owned">NotOwnedActivity</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
-
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact
         based on your message history
     </string>
-
     <string name="pref_title_display_name">Display name</string>
     <string name="pref_default_display_name">John Smith</string>
-
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
         <item>Always</item>
@@ -61,7 +33,6 @@
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
-
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
@@ -79,27 +50,31 @@
         <item>360</item>
         <item>-1</item>
     </string-array>
-
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
-
     <string name="pref_title_new_message_notifications">New message notifications</string>
-
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
-
     <string name="pref_title_vibrate">Vibrate</string>
-    <!--menu-->
-    <string name="search_book">Busca llibre</string>
-    <string name="profile">Perfil</string>
-    <string name="add">Afegeix llibre</string>
-    <string name="logout">Surt</string>
+
+    <!--activities-->
+    <string name="title_activity_profile">Perfil</string>
+    <string name="title_activity_not_owned">NotOwnedActivity</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_main">Busca llibres</string>
     <string name="title_activity_owned">OwnedActivity</string>
-    <string name="visitor">No et trobes registrat</string>
-    <string name="visitor_entry">Entrada per a visitants</string>
+
+    <!--actions-->
+    <string name="search_button">Busca</string>
+    <string name="action_settings">Preferències</string>
+    <string name="action_register">Registra\'t</string>
+
+    <!--labels-->
     <!--user data-->
+    <string name="prompt_user">Nom d\'usuari</string>
+    <string name="prompt_email">Email</string>
     <string name="user_name">Nom</string>
     <string name="surname">Cognom</string>
     <string name="birthdate">Data de naixement</string>
@@ -108,10 +83,34 @@
     <string name="title">Títol:</string>
     <string name="author">Autor:</string>
     <string name="publishdate">Data de publicació:</string>
+
+    <!-- Strings related to password -->
+    <string name="prompt_password">Contrassenya</string>
+    <string name="prompt_password_repeat"> Repeteix contrassenya</string>
+    <string name="action_sign_in">Accedeix</string>
+    <string name="action_sign_in_short">Accedeix</string>
+    <string name="error_invalid_email">L\'adreça de correu és invàlida</string>
+    <string name="error_invalid_password">La contrassenya és massa curta</string>
+    <string name="error_incorrect_password">La contrassenya és incorrecta</string>
+    <string name="error_super_password">La contrasenya és incorrecta o no ets supervisor</string>
+    <string name="error_field_required">Aquest camp és requerit</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!--menu-->
+    <string name="search_book">Busca llibre</string>
+    <string name="profile">Perfil</string>
+    <string name="add">Afegeix llibre</string>
+    <string name="logout">Surt</string>
+    <string name="visitor">No et trobes registrat</string>
+    <string name="visitor_entry">Entrada per a visitants</string>
+
     <!--modify-->
     <string name="modify">Si abandones la pàgina tots els canvis es perdran. Estas segur?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+
     <!--edit button-->
     <string name="editprofile">Edita perfil</string>
     <string name="editbook">Edita llibre</string>
