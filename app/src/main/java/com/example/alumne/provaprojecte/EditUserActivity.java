@@ -129,12 +129,12 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-            if (LoginActivity.user) {
-                startActivity(new Intent("android.intent.action.LoginActivity"));
-                finish();
-            } else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=new Intent("android.intent.action.LoginActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(ProfileActivity.estat);
+            ModifyActivity.context.add(MainActivity.estat);
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,14 +148,23 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
 
 
         if (id == R.id.nav_search) {
-            startActivity(new Intent("android.intent.action.MainActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=new Intent("android.intent.action.MainActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(ProfileActivity.estat);
+            ModifyActivity.context.add(MainActivity.estat);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent("android.intent.action.ProfileActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=new Intent("android.intent.action.ProfileActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
         } else if (id == R.id.nav_add) {
-            startActivity(new Intent("android.intent.action.AddActivity"));
-            finish();
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=new Intent("android.intent.action.AddActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(ProfileActivity.estat);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -244,6 +253,49 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 data += "&" + URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(correu, "UTF-8");
                 data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(datas, "UTF-8");
                 data += "&" + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                wr.write(data);
+                wr.flush();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+    public class PassTask extends AsyncTask<Void, Void, Boolean> {
+        String result;
+        String[] dades;
+        String oldpass;
+        String pass;
+        String newpass;
+
+        PassTask() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+                String link = "http://projectedam2016.comxa.com/editarusuari.php";
+                String data = URLEncoder.encode("oldpass", "UTF-8") + "=" + URLEncoder.encode(oldpass, "UTF-8");
+                data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
+                data += "&" + URLEncoder.encode("repeatpass", "UTF-8") + "=" + URLEncoder.encode(newpass, "UTF-8");
 
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();

@@ -2,6 +2,7 @@ package com.example.alumne.provaprojecte;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity
     ListView llistallibres;
     NewAdapter adaptador;
     static ArrayList<Llibre> llibres;
+    static Context estat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        estat=this;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         nom = (TextView) findViewById(R.id.NomTextData);
