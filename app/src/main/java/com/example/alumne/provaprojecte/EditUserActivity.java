@@ -159,6 +159,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             ModifyActivity.intent=new Intent("android.intent.action.ProfileActivity");
             ModifyActivity.context.clear();
             ModifyActivity.context.add(this);
+            ModifyActivity.context.add(ProfileActivity.estat);
         } else if (id == R.id.nav_add) {
             startActivity(new Intent("android.intent.action.ModifyActivity"));
             ModifyActivity.intent=new Intent("android.intent.action.AddActivity");
