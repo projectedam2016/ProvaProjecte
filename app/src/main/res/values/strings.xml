@@ -76,6 +76,12 @@
     <string name="search_button">Search</string>
     <string name="delete_book">Are you sure you want to delete it?</string>
     <string name="delete_book_button">Delete book</string>
+    <string-array name="search_book">
+        <item>Title</item>
+        <item>User</item>
+        <item>Isbn</item>
+        <item>Author</item>
+    </string-array>
 
     <!--labels-->
     <!--user data-->

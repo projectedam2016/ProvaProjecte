@@ -104,6 +104,7 @@
     <string name="surname">Apellido</string>
     <string name="birthdate">Fecha de nacimiento</string>
     <string name="emptylist">No tienes ningún libro</string>
+    <string name="delete_book_button">Borra el libro</string>
     <!--book data-->
     <string name="title">Título:</string>
     <string name="author">Autor:</string>
@@ -117,4 +118,11 @@
     <string name="editbook">Edit libro</string>
     <string name="savechange">Guarda los cambios</string>
     <string name="changepass">Cambia contraseña</string>
+
+    <string-array name="search_book">
+        <item>Título</item>
+        <item>Usuario</item>
+        <item>Isbn</item>
+        <item>Autor</item>
+    </string-array>
 </resources>

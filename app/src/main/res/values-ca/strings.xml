@@ -71,6 +71,7 @@
     <string name="action_settings">Preferències</string>
     <string name="action_register">Registra\'t</string>
     <string name="delete_book">Estas segur que vols eliminar-lo?</string>
+    <string name="delete_book_button">Borra el llibre</string>
 
     <!--labels-->
     <!--user data-->
@@ -80,6 +81,12 @@
     <string name="surname">Cognom</string>
     <string name="birthdate">Data de naixement</string>
     <string name="emptylist">No tens cap llibre</string>
+    <string-array name="search_book">
+        <item>Títol</item>
+        <item>Usuari</item>
+        <item>Isbn</item>
+        <item>Autor</item>
+    </string-array>
     <!--book data-->
     <string name="title">Títol:</string>
     <string name="author">Autor:</string>
