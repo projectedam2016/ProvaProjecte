@@ -141,9 +141,13 @@
             android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.ModifyActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".DeleteUserActivity" />
+        <activity android:name=".DeleteBookActivity" />
+        <activity android:name=".UserActivity"></activity>
     </application>
 
 </manifest>

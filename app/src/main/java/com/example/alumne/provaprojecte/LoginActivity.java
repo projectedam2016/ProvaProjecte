@@ -476,7 +476,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 dades = linea;
                 superu=true;
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(getString(R.string.error_super_password));
                 mPasswordView.requestFocus();
             }
         }
