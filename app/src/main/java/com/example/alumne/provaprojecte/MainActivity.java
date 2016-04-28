@@ -15,12 +15,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -28,8 +34,12 @@ public class MainActivity extends AppCompatActivity
     public static Context estat;
     ListView llistallibres;
     NewAdapter adaptador;
+    TextView llistabuida;
+    EditText textCerca;
     static String idllibre;
     static ArrayList<Llibre> llibres;
+    Button cerca;
+    Spinner tipuscerca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +66,23 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 idllibre = llibres.get(position).getId();
                 if (llibres.get(position).getUsuari().equals(LoginActivity.dades) || LoginActivity.superu) {
-                    OwnedActivity.id=idllibre;
+                    OwnedActivity.id = idllibre;
                     startActivity(new Intent("android.intent.action.OwnedActivity"));
                 } else {
                     startActivity(new Intent("android.intent.action.NotOwnedActivity"));
+                }
+            }
+        });
+        textCerca=(EditText)findViewById(R.id.searchBookText);
+        llistabuida=(TextView)findViewById(R.id.EmptyList);
+        cerca=(Button)findViewById(R.id.buttonSearch);
+        tipuscerca=(Spinner)findViewById(R.id.spinner);
+        cerca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tipuscerca.getSelectedItemId()==1){
+                    ListUserTask listUserTask=new ListUserTask();
+                    listUserTask.execute();
                 }
             }
         });
@@ -200,6 +223,68 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(final Boolean success) {
 
             adaptador.notifyDataSetChanged();
+        }
+    }
+    public class ListUserTask extends AsyncTask<Void, Void, Boolean> {
+        String result;
+        String cerca;
+        ListUserTask() {
+            cerca=textCerca.getText().toString();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            try {
+                String link = "http://projectedam2016.comxa.com/buscallibresusuari.php";
+                String id = LoginActivity.dades;
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(cerca, "UTF-8");
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                llibres.clear();
+                result = sb.toString();
+                String[] dades = result.split("'");
+                for (int i = 0; i < dades.length; i += 3) {
+                    Llibre llibre = new Llibre();
+                    llibre.setNom(dades[i]);
+                    llibre.setAutor(dades[i + 1]);
+                    llibre.setId(dades[i + 2]);
+                    llibres.add(llibre);
+                }
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+            // TODO: register the new account here.
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            adaptador.notifyDataSetChanged();
+            if(llibres.isEmpty()){
+                System.out.println("hola");
+                llistallibres.setVisibility(View.GONE);
+                llistabuida.setVisibility(View.VISIBLE);
+            }else{
+                llistallibres.setVisibility(View.VISIBLE);
+                llistabuida.setVisibility(View.GONE);
+            }
         }
     }
 }
