@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
                     break;
                 }
                 result = sb.toString();
-                String[] dades = result.split(" ");
+                String[] dades = result.split("'");
                 llibres.clear();
                 for (int i = 0; i < dades.length; i += 4) {
                     Llibre llibre = new Llibre();

@@ -70,6 +70,7 @@
     <string name="search_button">Busca</string>
     <string name="action_settings">Preferències</string>
     <string name="action_register">Registra\'t</string>
+    <string name="delete_book">Estas segur que vols eliminar-lo?</string>
 
     <!--labels-->
     <!--user data-->

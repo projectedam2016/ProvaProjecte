@@ -74,6 +74,8 @@
     <string name="action_register">Register</string>
     <string name="action_settings">Settings</string>
     <string name="search_button">Search</string>
+    <string name="delete_book">Are you sure you want to delete it?</string>
+    <string name="delete_book_button">Delete book</string>
 
     <!--labels-->
     <!--user data-->

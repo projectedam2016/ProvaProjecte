@@ -31,7 +31,7 @@ public class OwnedActivity extends AppCompatActivity
     static Llibre llibre;
     public static String id;
     public static Context estat;
-    Button edita;
+    Button edita,borra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,13 @@ public class OwnedActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent("android.intent.action.EditBookActivity"));
+            }
+        });
+        borra=(Button)findViewById(R.id.button2);
+        borra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("android.intent.action.DeleteBookActivity"));
             }
         });
     }
@@ -162,7 +169,7 @@ public class OwnedActivity extends AppCompatActivity
                     break;
                 }
                 result = sb.toString();
-                String[] dades = result.split(" ");
+                String[] dades = result.split("'");
                 llibre.setNom(dades[0]);
                 llibre.setAutor(dades[1]);
                 llibre.setIsbn(dades[3]);

@@ -156,7 +156,7 @@ public class NotOwnedActivity extends AppCompatActivity
                     break;
                 }
                 result = sb.toString();
-                String[] dades = result.split(" ");
+                String[] dades = result.split("'");
                 llibre.setNom(dades[0]);
                 llibre.setAutor(dades[1]);
                 llibre.setIsbn(dades[3]);

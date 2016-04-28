@@ -188,7 +188,7 @@ public class ProfileActivity extends AppCompatActivity
                     break;
                 }
                 result = sb.toString();
-                dades = result.split(" ");
+                dades = result.split("'");
                 return true;
             } catch (Exception e) {
                 return false;
@@ -238,7 +238,7 @@ public class ProfileActivity extends AppCompatActivity
                 }
                 llibres.clear();
                 result = sb.toString();
-                String[] dades = result.split(" ");
+                String[] dades = result.split("'");
                 for (int i = 0; i < dades.length; i += 3) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);

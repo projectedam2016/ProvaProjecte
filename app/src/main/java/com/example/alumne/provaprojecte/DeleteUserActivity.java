@@ -18,13 +18,13 @@ public class DeleteUserActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_user);
     }
-    public class PassTask extends AsyncTask<Void, Void, Boolean> {
+    public class DeleteTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
 
 
 
-        PassTask() {
+        DeleteTask() {
         }
 
         @Override

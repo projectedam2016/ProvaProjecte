@@ -187,7 +187,7 @@ public class UserActivity extends AppCompatActivity
                     break;
                 }
                 result = sb.toString();
-                dades = result.split(" ");
+                dades = result.split("'");
                 return true;
             } catch (Exception e) {
                 return false;

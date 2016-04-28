@@ -1,8 +1,11 @@
 package com.example.alumne.provaprojecte;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,14 +20,27 @@ public class DeleteBookActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_book);
+        Button buttonok=(Button)findViewById(R.id.buttonOK);
+        buttonok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeleteTask deleteTask=new DeleteTask();
+                deleteTask.execute();
+            }
+        });
+        Button buttonlog=(Button)findViewById(R.id.buttonLog);
+        buttonlog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
-    public class PassTask extends AsyncTask<Void, Void, Boolean> {
+    public class DeleteTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
 
-
-
-        PassTask() {
+        DeleteTask() {
         }
 
         @Override
@@ -32,8 +48,8 @@ public class DeleteBookActivity extends Activity {
             // TODO: attempt authentication against a network service.
 
             try {
-                String link = "http://projectedam2016.comxa.com/editapass.php";
-                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
+                String link = "http://projectedam2016.comxa.com/borrallibre.php";
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -46,13 +62,6 @@ public class DeleteBookActivity extends Activity {
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
-                while(!(line = reader.readLine()).equals("")) {
-                    if(line.equals("1")) {
-                        return true;
-                    }if(line.equals("0"))
-                        return false;
-                }
                 return true;
             } catch (Exception e) {
                 return false;
@@ -61,6 +70,7 @@ public class DeleteBookActivity extends Activity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
+                ((Activity)OwnedActivity.estat).finish();
                 finish();
             } else {
             }

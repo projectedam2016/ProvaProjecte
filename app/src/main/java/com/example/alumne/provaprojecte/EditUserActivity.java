@@ -287,7 +287,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                     break;
                 }
                 result = sb.toString();
-                dades= result.split(" ");
+                dades= result.split("'");
                 dadesdata = dades[4].split("-");
                 return true;
             } catch (Exception e) {
