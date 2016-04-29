@@ -214,12 +214,13 @@ public class MainActivity extends AppCompatActivity
                 result = sb.toString();
                 String[] dades = result.split("'");
                 llibres.clear();
-                for (int i = 0; i < dades.length; i += 4) {
+                for (int i = 0; i < dades.length; i += 5) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i + 2]);
                     llibre.setUsuari(dades[i + 3]);
+                    llibre.setImatge(dades[i+4]);
                     llibres.add(llibre);
                 }
 

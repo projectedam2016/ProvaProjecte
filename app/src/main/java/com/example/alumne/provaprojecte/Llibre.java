@@ -10,6 +10,7 @@ public class Llibre {
     String any;
     String isbn;
     String usuari;
+    String imatge;
 
     public String getNom() {
         return nom;
@@ -57,5 +58,13 @@ public class Llibre {
 
     public void setUsuari(String usuari) {
         this.usuari = usuari;
+    }
+
+    public String getImatge() {
+        return imatge;
+    }
+
+    public void setImatge(String imatge) {
+        this.imatge = imatge;
     }
 }

@@ -1,10 +1,13 @@
 package com.example.alumne.provaprojecte;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,7 +53,10 @@ public class NewAdapter extends ArrayAdapter<Llibre>{
         textName.setText(records.get(position).getNom());
         TextView textPrice = (TextView) itemView.findViewById(R.id.llibre_autor);
         textPrice.setText(records.get(position).getAutor());
-
+        ImageView image=(ImageView)itemView.findViewById(R.id.llibreimatge);
+        if(!records.get(position).getImatge().equals(""))
+        image.setImageBitmap(BitmapFactory
+                .decodeFile(records.get(position).getImatge()));
         return itemView;
 
     }
