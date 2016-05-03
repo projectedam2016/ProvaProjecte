@@ -10,7 +10,7 @@ public class Llibre {
     String any;
     String isbn;
     String usuari;
-    String imatge;
+    byte[] imatge;
 
     public String getNom() {
         return nom;
@@ -60,11 +60,11 @@ public class Llibre {
         this.usuari = usuari;
     }
 
-    public String getImatge() {
+    public byte[] getImatge() {
         return imatge;
     }
 
-    public void setImatge(String imatge) {
+    public void setImatge(byte[] imatge) {
         this.imatge = imatge;
     }
 }

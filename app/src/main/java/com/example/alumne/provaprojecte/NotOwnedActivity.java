@@ -2,6 +2,7 @@ package com.example.alumne.provaprojecte;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,8 +11,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -25,6 +28,7 @@ import java.net.URLEncoder;
 public class NotOwnedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView titol, autor,any, isbn;
+    ImageView imageView;
     static Llibre llibre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class NotOwnedActivity extends AppCompatActivity
         setContentView(R.layout.activity_not_owned);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        imageView=(ImageView)findViewById(R.id.imageBook);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -162,6 +166,7 @@ public class NotOwnedActivity extends AppCompatActivity
                 llibre.setIsbn(dades[3]);
                 String[] dadesdata=dades[2].split("-");
                 llibre.setAny(dadesdata[2] + "/" + dadesdata[1] + "/" + dadesdata[0]);
+                llibre.setImatge(Base64.decode((dades[4]), Base64.DEFAULT));
                 return true;
             } catch (Exception e) {
                 return false;
@@ -171,10 +176,13 @@ public class NotOwnedActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(final Boolean success) {
             setTitle(llibre.getNom());
-            titol.setText("  " +llibre.getNom());
+            titol.setText("  " + llibre.getNom());
             autor.setText("  " +llibre.getAutor());
             any.setText("  " +llibre.getAny());
             isbn.setText("  " +llibre.getIsbn());
+            imageView.setImageBitmap(BitmapFactory
+                    .decodeByteArray(llibre.getImatge(),0,llibre.getImatge().length));
+
         }
 
     }

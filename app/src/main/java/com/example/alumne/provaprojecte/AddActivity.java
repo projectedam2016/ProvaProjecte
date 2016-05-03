@@ -5,19 +5,25 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -45,13 +52,15 @@ public class AddActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static Context estat;
     private Calendar calendar;
-    private EditText dateView,isbn, title, author;
+    private EditText dateView, isbn, title, author;
     private int year, month, day;
     Button registra;
-    private AddTask addTask=null;
+    private AddTask addTask = null;
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
     ImageView imgView;
+    byte[] imatge;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,17 +77,17 @@ public class AddActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        dateView=(EditText)findViewById(R.id.publishdate);
-        isbn=(EditText)findViewById(R.id.isbn);
-        title=(EditText)findViewById(R.id.title);
-        author=(EditText)findViewById(R.id.author);
-        registra=(Button)findViewById(R.id.register_form_button);
+        dateView = (EditText) findViewById(R.id.publishdate);
+        isbn = (EditText) findViewById(R.id.isbn);
+        title = (EditText) findViewById(R.id.title);
+        author = (EditText) findViewById(R.id.author);
+        registra = (Button) findViewById(R.id.register_form_button);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year, month + 1, day);
-        imgView= (ImageView) findViewById(R.id.imgView);
+        imgView = (ImageView) findViewById(R.id.imgView);
         dateView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -92,7 +101,9 @@ public class AddActivity extends AppCompatActivity
                 campNo();
             }
         });
+        imatge=null;
     }
+
     public void loadImagefromGallery(View view) {
         // Create intent to Open Image applications like Gallery, Google Photos
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
@@ -111,7 +122,7 @@ public class AddActivity extends AppCompatActivity
                 // Get the Image from data
 
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 // Get the cursor
                 Cursor cursor = getContentResolver().query(selectedImage,
@@ -125,6 +136,10 @@ public class AddActivity extends AppCompatActivity
                 // Set the Image in ImageView after decoding the String
                 imgView.setImageBitmap(BitmapFactory
                         .decodeFile(imgDecodableString));
+                //Conversio a bytearray
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ((BitmapDrawable) imgView.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                imatge = stream.toByteArray();
 
             } else {
                 Toast.makeText(this, "You haven't picked Image",
@@ -136,6 +151,7 @@ public class AddActivity extends AppCompatActivity
         }
 
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -143,7 +159,7 @@ public class AddActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             startActivity(new Intent("android.intent.action.ModifyActivity"));
-            ModifyActivity.intent=null;
+            ModifyActivity.intent = null;
             ModifyActivity.context.clear();
             ModifyActivity.context.add(this);
         }
@@ -161,11 +177,11 @@ public class AddActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-                startActivity(new Intent("android.intent.action.ModifyActivity"));
-                ModifyActivity.intent = new Intent("android.intent.action.LoginActivity");
-                ModifyActivity.context.clear();
-                ModifyActivity.context.add(this);
-                ModifyActivity.context.add(MainActivity.estat);
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent = new Intent("android.intent.action.LoginActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(MainActivity.estat);
         }
 
         return super.onOptionsItemSelected(item);
@@ -200,11 +216,13 @@ public class AddActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @SuppressWarnings("deprecation")
     public void setDate(View view) {
         showDialog(999);
     }
-    private void campNo(){
+
+    private void campNo() {
         if (addTask != null) {
             return;
         }
@@ -231,7 +249,7 @@ public class AddActivity extends AppCompatActivity
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            addTask=new AddTask();
+            addTask = new AddTask();
             addTask.execute();
             finish();
         }
@@ -249,7 +267,7 @@ public class AddActivity extends AppCompatActivity
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-            showDate(arg1, arg2+1, arg3);
+            showDate(arg1, arg2 + 1, arg3);
         }
     };
 
@@ -264,15 +282,25 @@ public class AddActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
     public class AddTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
-        String isbnt= isbn.getText().toString();
-        String namet=title.getText().toString();
-        String authort=author.getText().toString();
-        String date=dateView.getText().toString();
-        String image=imgDecodableString;
+        String isbnt = isbn.getText().toString();
+        String namet = title.getText().toString();
+        String authort = author.getText().toString();
+        String date = dateView.getText().toString();
+        String image;
+
         AddTask() {
+            if (imatge != null)
+                image = Base64.encodeToString(imatge, Base64.DEFAULT);
+            else {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ((BitmapDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.icona,null)).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                imatge = stream.toByteArray();
+                image= Base64.encodeToString(imatge,Base64.DEFAULT);
+            }
         }
 
         @Override
@@ -283,11 +311,11 @@ public class AddActivity extends AppCompatActivity
                 String link = "http://projectedam2016.comxa.com/creallibre.php";
                 String id = LoginActivity.dades;
                 String data = URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
-                data+= "&" +URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
-                data+= "&" +URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
-                data+= "&" +URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
-                data+= "&" +URLEncoder.encode("iduser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
-                data+= "&" +URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
+                data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
+                data += "&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
+                data += "&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
+                data += "&" + URLEncoder.encode("iduser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
+                data += "&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
 
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -82,16 +83,27 @@ public class MainActivity extends AppCompatActivity
         cerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListSearchTask listSearchTask = new ListSearchTask();
-                listSearchTask.execute();
+                if(textCerca.getText().length()==0){
+                    ListTask task = new ListTask();
+                    task.execute();
+
+                }else{
+                    ListSearchTask listSearchTask = new ListSearchTask();
+                    listSearchTask.execute();
+                }
             }
         });
         textCerca.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.searchBookText || id == EditorInfo.IME_NULL) {
-                    ListSearchTask listSearchTask = new ListSearchTask();
-                    listSearchTask.execute();
+                    if(textView.getText().toString().length()==0){
+                        ListTask task = new ListTask();
+                        task.execute();
+                    }else{
+                        ListSearchTask listSearchTask = new ListSearchTask();
+                        listSearchTask.execute();
+                    }
                     return true;
                 }
                 return false;
@@ -220,7 +232,7 @@ public class MainActivity extends AppCompatActivity
                     llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i + 2]);
                     llibre.setUsuari(dades[i + 3]);
-                    llibre.setImatge(dades[i+4]);
+                    llibre.setImatge(Base64.decode((dades[i + 4]),Base64.DEFAULT));
                     llibres.add(llibre);
                 }
 
@@ -278,12 +290,13 @@ public class MainActivity extends AppCompatActivity
                 llibres.clear();
                 result = sb.toString();
                 String[] dades = result.split("'");
-                for (int i = 0; i < dades.length; i += 4) {
+                for (int i = 0; i < dades.length; i += 5) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i + 2]);
                     llibre.setUsuari(dades[i + 3]);
+                    llibre.setImatge(Base64.decode((dades[i+4]),Base64.DEFAULT));
                     llibres.add(llibre);
                 }
                 return true;

@@ -56,7 +56,7 @@ public class NewAdapter extends ArrayAdapter<Llibre>{
         ImageView image=(ImageView)itemView.findViewById(R.id.llibreimatge);
         if(!records.get(position).getImatge().equals(""))
         image.setImageBitmap(BitmapFactory
-                .decodeFile(records.get(position).getImatge()));
+                .decodeByteArray(records.get(position).getImatge(),0,records.get(position).getImatge().length));
         return itemView;
 
     }
