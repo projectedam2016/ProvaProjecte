@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity
                     llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i + 2]);
                     llibre.setUsuari(dades[i + 3]);
-                    llibre.setImatge(Base64.decode((dades[i + 4]),Base64.DEFAULT));
+                    llibre.setImatge(Base64.decode((dades[i + 4]), Base64.DEFAULT));
                     llibres.add(llibre);
                 }
 
