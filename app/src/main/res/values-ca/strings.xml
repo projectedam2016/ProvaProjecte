@@ -61,10 +61,12 @@
 
     <!--activities-->
     <string name="title_activity_profile">Perfil</string>
-    <string name="title_activity_not_owned">NotOwnedActivity</string>
+    <string name="title_activity_not_owned">Llibre</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_main">Busca llibres</string>
-    <string name="title_activity_owned">OwnedActivity</string>
+    <string name="title_activity_owned">Llibre</string>
+    <string name="title_activity_add">Afegeix llibre</string>
+    <string name="title_activity_modify">Llibre</string>
 
     <!--actions-->
     <string name="search_button">Busca</string>

@@ -64,11 +64,11 @@
     <!-- activities-->
     <string name="title_activity_main">Search books</string>
     <string name="title_activity_profile">Profile</string>
-    <string name="title_activity_not_owned">NotOwnedActivity</string>
+    <string name="title_activity_not_owned">Book</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_owned">OwnedActivity</string>
-    <string name="title_activity_add">AddActivity</string>
-    <string name="title_activity_modify">ModifyActivity</string>
+    <string name="title_activity_owned">Book</string>
+    <string name="title_activity_add">Add Book</string>
+    <string name="title_activity_modify">Book</string>
 
     <!--actions-->
     <string name="action_register">Register</string>

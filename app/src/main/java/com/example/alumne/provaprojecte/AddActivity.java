@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -293,11 +294,12 @@ public class AddActivity extends AppCompatActivity
         String image;
 
         AddTask() {
-            if (imatge != null)
+            if (imatge!=null)
                 image = Base64.encodeToString(imatge, Base64.DEFAULT);
             else {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                ((BitmapDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.icona,null)).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                Bitmap imagen= ((BitmapDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.icona,null)).getBitmap();
+                imagen.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 imatge = stream.toByteArray();
                 image= Base64.encodeToString(imatge,Base64.DEFAULT);
             }
@@ -316,7 +318,6 @@ public class AddActivity extends AppCompatActivity
                 data += "&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
                 data += "&" + URLEncoder.encode("iduser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                 data += "&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);

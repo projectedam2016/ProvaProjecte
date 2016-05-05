@@ -32,7 +32,7 @@
 
     <string name="action_example">Example action</string>
     <string name="search_button">Busca</string>
-    <string name="title_activity_not_owned">NotOwnedActivity</string>
+    <string name="title_activity_not_owned">Libro</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -96,7 +96,7 @@
     <string name="profile">Perfil</string>
     <string name="add">Agrega libro</string>
     <string name="logout">Sal</string>
-    <string name="title_activity_owned">OwnedActivity</string>
+    <string name="title_activity_owned">Libro</string>
     <string name="visitor">No estas registrado</string>
     <string name="visitor_entry">Entrada para visitantes</string>
     <!--user data-->
@@ -115,7 +115,7 @@
     <string name="no">No</string>
     <!--edit button-->
     <string name="editprofile">Edita perfil</string>
-    <string name="editbook">Edit libro</string>
+    <string name="editbook">Edita libro</string>
     <string name="savechange">Guarda los cambios</string>
     <string name="changepass">Cambia contraseña</string>
 
