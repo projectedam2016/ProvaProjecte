@@ -301,7 +301,7 @@ public class AddActivity extends AppCompatActivity
                 Bitmap imagen= ((BitmapDrawable) ResourcesCompat.getDrawable(getResources(),R.drawable.icona,null)).getBitmap();
                 imagen.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 imatge = stream.toByteArray();
-                image= Base64.encodeToString(imatge,Base64.DEFAULT);
+                image= Base64.encodeToString(imatge, Base64.DEFAULT);
             }
         }
 
@@ -312,17 +312,18 @@ public class AddActivity extends AppCompatActivity
             try {
                 String link = "http://projectedam2016.comxa.com/creallibre.php";
                 String id = LoginActivity.dades;
-                String data = URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
-                data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8");
-                data += "&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
-                data += "&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
-                data += "&" + URLEncoder.encode("iduser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
-                data += "&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
+                StringBuilder data=new StringBuilder();
+                data.append(URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8"));
+                data.append("&" +URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8"));
+                data.append("&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8"));
+                data.append("&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8"));
+                data.append("&" + URLEncoder.encode("iduser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8"));
+                data.append("&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8"));
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
+                wr.write(data.toString());
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
