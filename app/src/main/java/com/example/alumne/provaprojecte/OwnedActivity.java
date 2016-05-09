@@ -3,6 +3,7 @@ package com.example.alumne.provaprojecte;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,10 +12,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -32,6 +35,7 @@ public class OwnedActivity extends AppCompatActivity
     public static String id;
     public static Context estat;
     Button edita,borra;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,7 @@ public class OwnedActivity extends AppCompatActivity
                 startActivity(new Intent("android.intent.action.DeleteBookActivity"));
             }
         });
+        imageView=(ImageView)findViewById(R.id.imageBook);
     }
 
     @Override
@@ -175,6 +180,7 @@ public class OwnedActivity extends AppCompatActivity
                 llibre.setIsbn(dades[3]);
                 String[] dadesdata=dades[2].split("-");
                 llibre.setAny(dadesdata[2]+"/"+dadesdata[1]+"/"+dadesdata[0]);
+                llibre.setImatge(Base64.decode((dades[4]), Base64.DEFAULT));
                 return true;
             } catch (Exception e) {
                 return false;
@@ -189,6 +195,8 @@ public class OwnedActivity extends AppCompatActivity
             autor.setText("  " + llibre.getAutor());
             any.setText("  " + llibre.getAny());
             isbn.setText("  " + llibre.getIsbn());
+            imageView.setImageBitmap(BitmapFactory
+                    .decodeByteArray(llibre.getImatge(), 0, llibre.getImatge().length));
         }
 
     }

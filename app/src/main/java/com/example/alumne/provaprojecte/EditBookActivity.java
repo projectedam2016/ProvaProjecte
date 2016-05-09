@@ -4,14 +4,22 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,9 +27,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -34,7 +44,11 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
     static Llibre llibre;
     private Calendar calendar;
     private int year, month, day;
+    private static int RESULT_LOAD_IMG = 1;
     static String[] dadesdata;
+    ImageView image;
+    String imgDecodableString;
+    byte[] imatge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +78,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 return false;
             }
         });
+        image = (ImageView) findViewById(R.id.imageEdit);
         Button edita = (Button) findViewById(R.id.editbookbutton);
         edita.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +87,56 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 editTask.execute();
             }
         });
+        BookTask bookTask = new BookTask();
+        bookTask.execute();
+    }
+
+    public void loadImagefromGallery(View view) {
+        // Create intent to Open Image applications like Gallery, Google Photos
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Start the Intent
+        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            // When an Image is picked
+            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
+                    && null != data) {
+                // Get the Image from data
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                // Get the cursor
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+                // Set the Image in ImageView after decoding the String
+                image.setImageBitmap(BitmapFactory
+                        .decodeFile(imgDecodableString));
+                //Conversio a bytearray
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ((BitmapDrawable) image.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                imatge = stream.toByteArray();
+
+            } else {
+                Toast.makeText(this, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+        }
+
     }
 
     public void setDate(View view) {
@@ -85,7 +150,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
             drawer.closeDrawer(GravityCompat.START);
         } else {
             startActivity(new Intent("android.intent.action.ModifyActivity"));
-            ModifyActivity.intent=null;
+            ModifyActivity.intent = null;
             ModifyActivity.context.clear();
             ModifyActivity.context.add(this);
         }
@@ -142,13 +207,6 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        BookTask bookTask = new BookTask();
-        bookTask.execute();
-
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -226,6 +284,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 llibre.setIsbn(dades[3]);
                 dadesdata = dades[2].split("-");
                 llibre.setAny(dadesdata[2] + "/" + dadesdata[1] + "/" + dadesdata[0]);
+                llibre.setImatge(Base64.decode((dades[4]), Base64.DEFAULT));
                 return true;
             } catch (Exception e) {
                 return false;
@@ -243,6 +302,8 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
             year = Integer.parseInt(dadesdata[0]);
             isbn.setText(llibre.getIsbn());
             showDate(year, month + 1, day);
+            image.setImageBitmap(BitmapFactory
+                    .decodeByteArray(llibre.getImatge(), 0, llibre.getImatge().length));
         }
     }
 
@@ -253,8 +314,10 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         String namet = titol.getText().toString();
         String authort = autor.getText().toString();
         String date = data.getText().toString();
+        String imageb;
 
         EditTask() {
+            imageb = Base64.encodeToString(imatge, Base64.DEFAULT);
         }
 
         @Override
@@ -274,7 +337,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                wr.write(data);
+                wr.write(data + "&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(imageb, "UTF-8"));
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
