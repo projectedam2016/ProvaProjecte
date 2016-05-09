@@ -251,7 +251,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             passTask.execute();
         }
     }
-
+    //Aquesta classe dóna les dades necessaries per omplir els EditText amb l'informació del llibre
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades ;
@@ -261,7 +261,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Es passa al php la id de l'usuari per obtenir-les
 
             try {
 
@@ -281,7 +281,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                //Es llegeixen les dades es separen i es canvia la data al format de l'aplicació
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -298,6 +298,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            //S'omplen els EditText amb les dades de l'usuari
             setTitle(dades[0]);
             user.setText(dades[0]);
             email.setText(dades[1]);
@@ -309,10 +310,11 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             showDate(year, month + 1, day);
         }
     }
-
+    //Aquest classe permet editar l'usuari
     public class EditTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
+        //S'agafen totes les dades dels EditText per passar-les de nou a la base de dades
         String nom=user.getText().toString();
         String correu=email.getText().toString();
         String cognom1=surname1.getText().toString();
@@ -324,7 +326,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Es passen com a string junt amb l'id de l'usuari per saber quin canviar
 
             try {
                 String link = "http://projectedam2016.comxa.com/editarusuari.php";
@@ -342,35 +344,25 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
 
                 wr.write(data);
                 wr.flush();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                    break;
-                }
                 return true;
             } catch (Exception e) {
                 return false;
             }
         }
     }
+    //Aquesta classe permet canviar la contrassenya si les condicions al attemptLogin es compleixen
     public class PassTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
+        //Agafa el text dels camps per comprovar-los i si es el cas canviar-los a la base de dades
         String oldpass=old.getText().toString();
         String pass=current.getText().toString();
-
-
         PassTask() {
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // En el php comprova l'usuari amb l'id del login té aquesta contrassenya i permet canviar-la si és el cas
 
             try {
                 String link = "http://projectedam2016.comxa.com/editapass.php";
@@ -389,7 +381,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                // Comprova si la resposta ha estat possitiva o no respecte la contrassenya
                 while(!(line = reader.readLine()).equals("")) {
                     if(line.equals("1")) {
                         return true;
@@ -404,6 +396,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         @Override
         protected void onPostExecute(final Boolean success) {
             passTask = null;
+            //acaba l'activity d'edició si el canvi es correcte i sino avisa de l'error a l'usuari
             if (success) {
                 finish();
             } else {
