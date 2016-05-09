@@ -283,10 +283,11 @@ public class AddActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
+//Aquesta classe genera la tasca que fa connexió amb el servidor per agregar llibres
     public class AddTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
+        //Paso el text dels editText per passar-les al php
         String isbnt = isbn.getText().toString();
         String namet = title.getText().toString();
         String authort = author.getText().toString();
@@ -294,6 +295,7 @@ public class AddActivity extends AppCompatActivity
         String image;
 
         AddTask() {
+                //Transforma la imatge en string per passar-la al php, la donada o una predeterminada segons si se li dóna una o no
             if (imatge!=null)
                 image = Base64.encodeToString(imatge, Base64.DEFAULT);
             else {
@@ -307,12 +309,13 @@ public class AddActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+            // Connecta amb el php i passa totes les strings amb les dades necessaries
             try {
                 String link = "http://projectedam2016.comxa.com/creallibre.php";
+                //Aquesta variable representa la id de l'usuari que crea el llibre
                 String id = LoginActivity.dades;
                 StringBuilder data=new StringBuilder();
+                //Aquest l'isbn del llibre
                 data.append(URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8"));
                 data.append("&" +URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(namet, "UTF-8"));
                 data.append("&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8"));
