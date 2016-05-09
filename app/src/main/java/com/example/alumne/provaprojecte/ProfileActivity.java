@@ -150,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity
         listTask.execute();
 
     }
-
+//Llegeix les dades del client i les mostra
     public class ProfileTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
@@ -160,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // Amb la id del login troba l'usuari del que necessita carregar el perfil
 
             try {
 
@@ -182,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                // Llegeix les dades del servidor i les separa per un pròxim us
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -199,14 +199,14 @@ public class ProfileActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(final Boolean success) {
+                //Omple els camps amb les noves dades
             nom.setText("  " + dades[0]);
             correu.setText("  " + dades[1]);
-            adaptador.notifyDataSetChanged();
 
         }
 
     }
-
+//Aquesta classe mostra tots els llibres d'un usuari
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         ListTask() {
@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Amb la id de l'usuari busca la llista de llibres
             try {
                 String link = "http://projectedam2016.comxa.com/buscallibresusuari.php";
                 String id = LoginActivity.dades;
@@ -231,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                // Llegeix les dades i les separa per organitzar-les i juntar-les en un llista d'objectes
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -250,12 +250,11 @@ public class ProfileActivity extends AppCompatActivity
             } catch (Exception e) {
                 return false;
             }
-            // TODO: register the new account here.
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
+                //Notifica la llista per actualitzar-se i marca si no hi ha llibres
             adaptador.notifyDataSetChanged();
             if(llibres.isEmpty()){
                 llistallibres.setVisibility(View.GONE);
