@@ -138,7 +138,7 @@ public class OwnedActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+//Agafa l'id per mostrar el llibre marcat
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
@@ -147,7 +147,7 @@ public class OwnedActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // Agafa la id per cercar el llibre a la base de dades
 
             try {
 
@@ -168,7 +168,7 @@ public class OwnedActivity extends AppCompatActivity
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                // Agafa les dades i les separa per unificar-les en un objecte
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -190,6 +190,7 @@ public class OwnedActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(final Boolean success) {
+        //Omple tots els camps en les dades donades
             setTitle(llibre.getNom());
             titol.setText("  " + llibre.getNom());
             autor.setText("  " + llibre.getAutor());
