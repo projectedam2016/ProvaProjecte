@@ -123,7 +123,7 @@ public class NotOwnedActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+//Aquesta classe permet la lectura de les dades del llibre
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
@@ -132,7 +132,7 @@ public class NotOwnedActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // Agafa la id del llibre de l'activitat anterior i cerca a la base de dades per recollir les dades
 
             try {
 
@@ -154,7 +154,7 @@ public class NotOwnedActivity extends AppCompatActivity
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                //Llegeix unicament el llibre amb aquella id i passa les dades per fer-les objecte
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -175,6 +175,7 @@ public class NotOwnedActivity extends AppCompatActivity
         }
         @Override
         protected void onPostExecute(final Boolean success) {
+                //Amb les dades de la base de dades omple els camps per donar informació del llibre
             setTitle(llibre.getNom());
             titol.setText("  " + llibre.getNom());
             autor.setText("  " +llibre.getAutor());
