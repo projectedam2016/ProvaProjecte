@@ -335,16 +335,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
+    
+    //Permet a un usuari normal loguejar-se
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
         private String linea;
-
+        //Passa l'email i password des de els editText
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
@@ -352,7 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Passa els parametres d'email i password per comprovar l'usuari existeixi i així el deixa accedir com a un
 
             try {
                 String username = mEmail;
@@ -376,7 +374,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                // Comprova si la resposta de la query al php es existent o no
                 if ((line = reader.readLine()).equals("")) {
                     return false;
                 } else {
@@ -394,7 +392,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            //Si ha hagut resposta de la query o no hagut problemes amb el codi inicia l'activity principal en cas contrari resalta l'error de contrassenya
             if (success) {
                 startActivity(new Intent("android.intent.action.MainActivity"));
                 dades = linea;
@@ -410,7 +408,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-
+    //Aquesta classe es una modificació de l'anterior que nomès deixa passar usuaris validats com a supervisors
     public class SuperLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
@@ -432,7 +430,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             try {
                 String username = mEmail;
                 String password = mPassword;
-
+                //Si les dades passades per parametres són correctes deixara accedir com a supervisor
                 String link = "http://projectedam2016.comxa.com/conexiosu.php";
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
@@ -470,7 +468,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            //Igual que en el metode anterior resalta l'error si hi és o inici l'activity principal
             if (success) {
                 startActivity(new Intent("android.intent.action.MainActivity"));
                 dades = linea;
