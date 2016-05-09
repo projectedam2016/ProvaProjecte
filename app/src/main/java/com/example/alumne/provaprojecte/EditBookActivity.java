@@ -241,7 +241,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    //Aquesta classe llista les dades del llibre a canviar
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
@@ -251,10 +251,10 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // Aqui es pasa el codi per obtenir el llibre
 
             try {
-
+                
                 String link = "http://projectedam2016.comxa.com/buscallibrescodi.php";
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
                 System.out.println(OwnedActivity.id);
@@ -272,12 +272,13 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                //A partir d'aqui es llegeix la resposta del php
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
                 }
                 result = sb.toString();
+                //Es separen les strings de resposta en per crear l'objecte de tipus llibre
                 String[] dades = result.split("'");
                 llibre.setNom(dades[0]);
                 llibre.setAutor(dades[1]);
@@ -294,6 +295,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            //Un cop acabat  omple els EditText i el titol del activity amb les seves dades
             setTitle(llibre.getNom());
             titol.setText(llibre.getNom());
             autor.setText(llibre.getAutor());
@@ -306,10 +308,11 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                     .decodeByteArray(llibre.getImatge(), 0, llibre.getImatge().length));
         }
     }
-
+    //Aquesta classe permet editar els llibres
     public class EditTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
+        //Es guarden els textos dels EditText com a l'activitar de creació
         String isbnt = isbn.getText().toString();
         String namet = titol.getText().toString();
         String authort = autor.getText().toString();
@@ -317,12 +320,13 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         String imageb;
 
         EditTask() {
+            //Com aqui no pot no haver-hi una imatge directament es passa a String per poder retornar-la al php
             imageb = Base64.encodeToString(imatge, Base64.DEFAULT);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Es passa el parametre que edentifica el llibre per poder modificar-lo amb les dades que hi hagi a l'activity en aquell moment
 
             try {
                 String link = "http://projectedam2016.comxa.com/editarllibre.php";
@@ -341,14 +345,7 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                    break;
-                }
+            
                 return true;
             } catch (Exception e) {
                 return false;
