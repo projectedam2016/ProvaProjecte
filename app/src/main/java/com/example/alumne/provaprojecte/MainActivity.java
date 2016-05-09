@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
         ListTask task = new ListTask();
         task.execute();
     }
-
+//La classe llegeix les dades necessaries de la base de dades per mostrar-les i per ús posterior de l'aplicació
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
         String result;
 
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Llegeix tots els llibres de l'aplicació
 
             try {
 
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                //Aqui repasa tota la resposta de la query i la separa per fer diver-sos llibres que mostrar 
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity
                 result = sb.toString();
                 String[] dades = result.split("'");
                 llibres.clear();
+                //i els junta en la llista que es mostra desprès a l'aplicació
                 for (int i = 0; i < dades.length; i += 5) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
@@ -243,16 +244,16 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
+                //Al acabar notifica el canvi de la llista al adaptador
             adaptador.notifyDataSetChanged();
         }
     }
-
+//Aquesta classe permet realitzar cerques
     public class ListSearchTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String cerca;
         long tipus;
-
+        //Agafa el tipus de cerca i les dades donades
         ListSearchTask() {
             cerca = textCerca.getText().toString();
             tipus = tipuscerca.getSelectedItemId();
@@ -260,27 +261,27 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             try {
                 String link;
+                //Segons el tipus de cerca utilitza un php o un altre per fer la cerca
                 if(tipus==0){link= "http://projectedam2016.comxa.com/buscallibretitol.php";}
                 else if(tipus==1){link = "http://projectedam2016.comxa.com/buscallibrenomusuari.php";}
                 else if(tipus==2){link = "http://projectedam2016.comxa.com/buscallibreisbn.php";}
                 else{link = "http://projectedam2016.comxa.com/buscallibreautor.php";}
+                //Es passa el text a cercar a la base de dades
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(cerca, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write(data);
-
                 wr.flush();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
-                // Read Server Response
+                //Es llegeixen les dades igual que la classe anterior i es separen per posterior conversió a llista d'objectes
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                     break;
@@ -301,12 +302,11 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e) {
                 return false;
             }
-            // TODO: register the new account here.
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
+        //Un cop acabada la cerca mostra les dades o un missatge de no haver-ne trobat si fos el cas
             adaptador.notifyDataSetChanged();
             if (llibres.isEmpty()) {
                 llistallibres.setVisibility(View.GONE);
