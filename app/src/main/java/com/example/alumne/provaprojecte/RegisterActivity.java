@@ -270,7 +270,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
+    // Si totes les dades del camps són correctes al registrar-se inicia aquesta classe que registra l'usuari
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
@@ -279,7 +279,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
         private final String mSurname1;
         private final String mSurname2;
         private final String date;
-
+        //passa totes les dades dels editText per ficar-les a la base de dades
         UserRegisterTask(String email, String password, String name, String surname1, String surname2,String date) {
             mEmail = email;
             mPassword = password;
@@ -298,7 +298,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
                 String surname1=mSurname1;
                 String surname2=mSurname2;
                 String name=mName;
-
+                //passa eles parametres al php
                 String link = "http://projectedam2016.comxa.com/registre.php";
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
@@ -316,6 +316,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
 
                 wr.write(data);
                 wr.flush();
+                //i acaba l'activity
                 finish();
                 return true;
             } catch (Exception e) {
