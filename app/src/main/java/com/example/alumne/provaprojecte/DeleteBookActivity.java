@@ -36,6 +36,7 @@ public class DeleteBookActivity extends Activity {
             }
         });
     }
+    //Aquesta classe connecta amb la base de dades i borra el llibre
     public class DeleteTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades;
@@ -45,7 +46,7 @@ public class DeleteBookActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //Aquest metode passa la id del llibre per borrar el llibre
 
             try {
                 String link = "http://projectedam2016.comxa.com/borrallibre.php";
@@ -69,6 +70,7 @@ public class DeleteBookActivity extends Activity {
         }
         @Override
         protected void onPostExecute(final Boolean success) {
+            //Si connecta amb la base de dades acaba l'activity junt amb la pàgina anterior on es veien les dades del llibre
             if (success) {
                 ((Activity)OwnedActivity.estat).finish();
                 finish();
