@@ -318,15 +318,13 @@ public class AddActivity extends AppCompatActivity
                 data.append("&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8"));
                 data.append("&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8"));
                 data.append("&" + URLEncoder.encode("iduser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8"));
-                data.append("&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8"));
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data.toString());
+                wr.write(data.toString()+"&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8"));
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
 
