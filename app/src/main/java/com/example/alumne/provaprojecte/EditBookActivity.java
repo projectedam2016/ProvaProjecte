@@ -318,16 +318,14 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
         String authort = autor.getText().toString();
         String date = data.getText().toString();
         String imageb;
-
         EditTask() {
             //Com aqui no pot no haver-hi una imatge directament es passa a String per poder retornar-la al php
             imageb = Base64.encodeToString(imatge, Base64.DEFAULT);
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
-            //Es passa el parametre que edentifica el llibre per poder modificar-lo amb les dades que hi hagi a l'activity en aquell moment
-
+            //Es passa el parametre que edentifica el llibre per poder modificar-lo amb les dades que hi hagi a l'activity
+            // en aquell moment
             try {
                 String link = "http://projectedam2016.comxa.com/editarllibre.php";
                 String data = URLEncoder.encode("isbn", "UTF-8") + "=" + URLEncoder.encode(isbnt, "UTF-8");
@@ -335,17 +333,13 @@ public class EditBookActivity extends AppCompatActivity implements NavigationVie
                 data += "&" + URLEncoder.encode("author", "UTF-8") + "=" + URLEncoder.encode(authort, "UTF-8");
                 data += "&" + URLEncoder.encode("publdate", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
                 data += "&" + URLEncoder.encode("idbook", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data + "&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(imageb, "UTF-8"));
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            
                 return true;
             } catch (Exception e) {
                 return false;

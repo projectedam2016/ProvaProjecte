@@ -255,32 +255,23 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     public class BookTask extends AsyncTask<Void, Void, Boolean> {
         String result;
         String[] dades ;
-
         BookTask() {
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             //Es passa al php la id de l'usuari per obtenir-les
-
             try {
-
                 String link = "http://projectedam2016.comxa.com/buscarusuari.php";
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
-
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 //Es llegeixen les dades es separen i es canvia la data al format de l'aplicació
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
@@ -320,14 +311,11 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         String cognom1=surname1.getText().toString();
         String cognom2=surname2.getText().toString();
         String datas=date.getText().toString();
-
         EditTask() {
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             //Es passen com a string junt amb l'id de l'usuari per saber quin canviar
-
             try {
                 String link = "http://projectedam2016.comxa.com/editarusuari.php";
                 String data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(nom, "UTF-8");
@@ -336,12 +324,10 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 data += "&" + URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(correu, "UTF-8");
                 data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(datas, "UTF-8");
                 data += "&" + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(LoginActivity.dades, "UTF-8");
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
                 return true;
@@ -359,11 +345,9 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         String pass=current.getText().toString();
         PassTask() {
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             // En el php comprova l'usuari amb l'id del login té aquesta contrassenya i permet canviar-la si és el cas
-
             try {
                 String link = "http://projectedam2016.comxa.com/editapass.php";
                 String data = URLEncoder.encode("oldpass", "UTF-8") + "=" + URLEncoder.encode(oldpass, "UTF-8");
@@ -373,14 +357,11 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 // Comprova si la resposta ha estat possitiva o no respecte la contrassenya
                 while(!(line = reader.readLine()).equals("")) {
                     if(line.equals("1")) {

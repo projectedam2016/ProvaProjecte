@@ -47,7 +47,6 @@ public class DeleteBookActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             //Aquest metode passa la id del llibre per borrar el llibre
-
             try {
                 String link = "http://projectedam2016.comxa.com/borrallibre.php";
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(OwnedActivity.id, "UTF-8");
@@ -55,14 +54,11 @@ public class DeleteBookActivity extends Activity {
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 return true;
             } catch (Exception e) {
                 return false;

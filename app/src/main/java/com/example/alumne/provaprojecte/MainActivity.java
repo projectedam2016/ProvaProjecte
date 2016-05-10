@@ -195,27 +195,19 @@ public class MainActivity extends AppCompatActivity
 //La classe llegeix les dades necessaries de la base de dades per mostrar-les i per ús posterior de l'aplicació
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
         String result;
-
         ListTask() {
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             //Llegeix tots els llibres de l'aplicació
-
             try {
-
                 String link = "http://projectedam2016.comxa.com/buscallibres.php";
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
-
                 conn.setDoOutput(true);
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 //Aqui repasa tota la resposta de la query i la separa per fer diver-sos llibres que mostrar 
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
@@ -234,12 +226,10 @@ public class MainActivity extends AppCompatActivity
                     llibre.setImatge(Base64.decode((dades[i + 4]), Base64.DEFAULT));
                     llibres.add(llibre);
                 }
-
                 return true;
             } catch (Exception e) {
                 return false;
             }
-            // TODO: register the new account here.
         }
 
         @Override
@@ -258,7 +248,6 @@ public class MainActivity extends AppCompatActivity
             cerca = textCerca.getText().toString();
             tipus = tipuscerca.getSelectedItemId();
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -276,11 +265,9 @@ public class MainActivity extends AppCompatActivity
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write(data);
                 wr.flush();
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 //Es llegeixen les dades igual que la classe anterior i es separen per posterior conversió a llista d'objectes
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);

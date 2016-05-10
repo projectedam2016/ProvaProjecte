@@ -135,25 +135,18 @@ public class NotOwnedActivity extends AppCompatActivity
             // Agafa la id del llibre de l'activitat anterior i cerca a la base de dades per recollir les dades
 
             try {
-
                 String link = "http://projectedam2016.comxa.com/buscallibrescodi.php";
                 String id=MainActivity.idllibre;
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
-
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 //Llegeix unicament el llibre amb aquella id i passa les dades per fer-les objecte
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
