@@ -347,7 +347,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmail = email;
             mPassword = password;
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             //Passa els parametres d'email i password per comprovar l'usuari existeixi i així el deixa accedir com a un
@@ -355,25 +354,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             try {
                 String username = mEmail;
                 String password = mPassword;
-
                 String link = "http://projectedam2016.comxa.com/conexio.php";
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
-
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
                 // Comprova si la resposta de la query al php es existent o no
                 if ((line = reader.readLine()).equals("")) {
                     return false;
@@ -392,7 +384,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-            //Si ha hagut resposta de la query o no hagut problemes amb el codi inicia l'activity principal en cas contrari resalta l'error de contrassenya
+            //Si ha hagut resposta de la query o no hagut problemes amb el codi inicia l'activity principal
+            // en cas contrari resalta l'error de contrassenya
             if (success) {
                 startActivity(new Intent("android.intent.action.MainActivity"));
                 dades = linea;
@@ -410,17 +403,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
     //Aquesta classe es una modificació de l'anterior que nomès deixa passar usuaris validats com a supervisors
     public class SuperLoginTask extends AsyncTask<Void, Void, Boolean> {
-
         private final String mEmail;
         private final String mPassword;
         private final String mSuperv;
         private String linea;
-
         SuperLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
             mSuperv="1";
-
         }
 
         @Override
@@ -435,22 +425,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
                 data += "&" + URLEncoder.encode("supervisor", "UTF-8") + "=" + URLEncoder.encode(mSuperv, "UTF-8");
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
-
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 StringBuilder sb = new StringBuilder();
                 String line = null;
-
-                // Read Server Response
                 if ((line = reader.readLine()).equals("")) {
                     return false;
                 } else {

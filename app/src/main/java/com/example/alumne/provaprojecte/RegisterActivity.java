@@ -288,7 +288,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
             mSurname2=surname2;
             this.date=date;
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
 
@@ -306,14 +305,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
                 data += "&" + URLEncoder.encode("surname2", "UTF-8") + "=" + URLEncoder.encode(surname2, "UTF-8");
                 data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8");
                 data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(date, "UTF-8");
-
-
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
-
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
                 wr.write(data);
                 wr.flush();
                 //i acaba l'activity
