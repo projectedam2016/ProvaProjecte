@@ -1,6 +1,5 @@
 package com.example.alumne.provaprojecte;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -32,14 +31,10 @@ import java.util.ArrayList;
 
 public class MarkedBookActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     public static Context estat;
-    ListView llistallibres;
-    NewAdapter adaptador;
+    ListView llistaMarcats;
+    AdapterMarked adaptador;
     TextView llistabuida;
-    EditText textCerca;
-    static String idllibre;
-    static ArrayList<Llibre> llibres;
-    Button cerca;
-    Spinner tipuscerca;
+    static ArrayList<Marked> marked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,47 +50,19 @@ public class MarkedBookActivity extends AppCompatActivity implements NavigationV
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        llistallibres = (ListView) findViewById(R.id.listView);
-        llibres = new ArrayList<>();
-        adaptador = new NewAdapter(this, R.layout.item_list, R.id.llibre_name, llibres);
-        llistallibres.setAdapter(adaptador);
-        llistallibres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        llistaMarcats = (ListView) findViewById(R.id.listOwnMarked);
+        marked = new ArrayList<>();
+        adaptador = new AdapterMarked(this, R.layout.item_marked, R.id.marked_llibre, marked);
+        llistaMarcats.setAdapter(adaptador);
+        llistaMarcats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                idllibre = llibres.get(position).getId();
-                if ((llibres.get(position).getUsuari().equals(LoginActivity.dades) || LoginActivity.superu)&&LoginActivity.user) {
-                    OwnedActivity.id = idllibre;
-                    startActivity(new Intent("android.intent.action.OwnedActivity"));
-                } else {
-                    startActivity(new Intent("android.intent.action.NotOwnedActivity"));
-                }
+                NotOwnedActivity.llibre.setUsuari(marked.get(position).getIdUsuari());
+                startActivity(new Intent("android.intent.action.UserActivity"));
             }
         });
-        textCerca = (EditText) findViewById(R.id.searchBookText);
+
         llistabuida = (TextView) findViewById(R.id.EmptyList);
-        cerca = (Button) findViewById(R.id.buttonSearch);
-        tipuscerca = (Spinner) findViewById(R.id.spinner);
-        cerca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(textCerca.getText().length()==0){
-                    ListTask task = new ListTask();
-                    task.execute();}
-            }
-        });
-        textCerca.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.searchBookText || id == EditorInfo.IME_NULL) {
-                    if(textView.getText().toString().length()==0){
-                        ListTask task = new ListTask();
-                        task.execute();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -201,16 +168,18 @@ public class MarkedBookActivity extends AppCompatActivity implements NavigationV
                 }
                 result = sb.toString();
                 String[] dades = result.split("'");
-                llibres.clear();
+                marked.clear();
                 //i els junta en la llista que es mostra desprès a l'aplicació
                 for (int i = 0; i < dades.length; i += 5) {
-                    Llibre llibre = new Llibre();
-                    llibre.setNom(dades[i]);
-                    llibre.setAutor(dades[i + 1]);
-                    llibre.setId(dades[i + 2]);
-                    llibre.setUsuari(dades[i + 3]);
-                    llibre.setImatge(Base64.decode((dades[i + 4]), Base64.DEFAULT));
-                    llibres.add(llibre);
+                    Marked mark = new Marked();
+                    mark.setTitol(dades[i]);
+                    mark.setUsuari(dades[i + 1]);
+                    mark.setAceptat(dades[i + 2]);
+                    mark.setIdUsuari("a");
+                    mark.setIdLlibre("a");
+                    mark.setIdPropietari("a");
+                    mark.setImatge(Base64.decode((dades[i + 4]), Base64.DEFAULT));
+                    marked.add(mark);
                 }
                 return true;
             } catch (Exception e) {

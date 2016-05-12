@@ -1,6 +1,5 @@
 package com.example.alumne.provaprojecte;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -56,7 +55,7 @@ public class OwnedMarkedActivity extends AppCompatActivity implements Navigation
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        llistallibres = (ListView) findViewById(R.id.listView);
+        llistallibres = (ListView) findViewById(R.id.listMarked);
         llibres = new ArrayList<>();
         adaptador = new NewAdapter(this, R.layout.item_list, R.id.llibre_name, llibres);
         llistallibres.setAdapter(adaptador);

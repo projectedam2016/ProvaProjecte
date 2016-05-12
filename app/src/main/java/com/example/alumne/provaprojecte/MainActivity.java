@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        llistallibres = (ListView) findViewById(R.id.listView);
+        llistallibres = (ListView) findViewById(R.id.listMarked);
         llibres = new ArrayList<>();
         adaptador = new NewAdapter(this, R.layout.item_list, R.id.llibre_name, llibres);
         llistallibres.setAdapter(adaptador);
