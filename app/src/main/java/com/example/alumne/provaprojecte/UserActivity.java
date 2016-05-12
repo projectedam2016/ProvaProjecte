@@ -231,7 +231,7 @@ public class UserActivity extends AppCompatActivity
                 }
                 llibres.clear();
                 result = sb.toString();
-                String[] dades = result.split(" ");
+                String[] dades = result.split("'");
                 for (int i = 0; i < dades.length; i += 5) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
