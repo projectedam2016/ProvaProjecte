@@ -83,6 +83,8 @@
     <string name="surname">Cognom</string>
     <string name="birthdate">Data de naixement</string>
     <string name="emptylist">No tens cap llibre</string>
+    <string name="other_empty_list">No hi ha cap llibre que compleixi aquestes condicions</string>
+
     <string-array name="search_book">
         <item>Títol</item>
         <item>Usuari</item>

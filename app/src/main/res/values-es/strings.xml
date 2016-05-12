@@ -105,6 +105,7 @@
     <string name="birthdate">Fecha de nacimiento</string>
     <string name="emptylist">No tienes ningún libro</string>
     <string name="delete_book_button">Borra el libro</string>
+    <string name="other_empty_list">No hay ningún libro que cumpla estas condiciones</string>
     <!--book data-->
     <string name="title">Título:</string>
     <string name="author">Autor:</string>
