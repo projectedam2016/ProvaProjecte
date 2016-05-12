@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,14 +62,7 @@ public class UserActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OwnedActivity.id = llibres.get(position).getId();
-                startActivity(new Intent("android.intent.action.OwnedActivity"));
-            }
-        });
-        Button editar=(Button)findViewById(R.id.botoEditar);
-        editar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent("android.intent.action.EditUserActivity"));
+                startActivity(new Intent("android.intent.action.NotOwnedActivity"));
             }
         });
     }
@@ -164,7 +158,7 @@ public class UserActivity extends AppCompatActivity
             try {
 
                 String link = "http://projectedam2016.comxa.com/buscarusuari.php";
-                String id = LoginActivity.dades;
+                String id = NotOwnedActivity.llibre.getUsuari();
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
 
                 URL url = new URL(link);
@@ -216,7 +210,7 @@ public class UserActivity extends AppCompatActivity
             // TODO: attempt authentication against a network service.
             try {
                 String link = "http://projectedam2016.comxa.com/buscallibresusuari.php";
-                String id = LoginActivity.dades;
+                String id = NotOwnedActivity.llibre.getUsuari();
                 String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
@@ -238,11 +232,13 @@ public class UserActivity extends AppCompatActivity
                 llibres.clear();
                 result = sb.toString();
                 String[] dades = result.split(" ");
-                for (int i = 0; i < dades.length; i += 3) {
+                for (int i = 0; i < dades.length; i += 5) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i + 2]);
+                    llibre.setUsuari(dades[i + 3]);
+                    llibre.setImatge(Base64.decode((dades[i + 4]), Base64.DEFAULT));
                     llibres.add(llibre);
                 }
                 return true;

@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -239,11 +240,13 @@ public class ProfileActivity extends AppCompatActivity
                 llibres.clear();
                 result = sb.toString();
                 String[] dades = result.split("'");
-                for (int i = 0; i < dades.length; i += 3) {
+                for (int i = 0; i < dades.length; i += 5) {
                     Llibre llibre = new Llibre();
                     llibre.setNom(dades[i]);
                     llibre.setAutor(dades[i + 1]);
                     llibre.setId(dades[i + 2]);
+                    llibre.setUsuari(dades[i + 3]);
+                    llibre.setImatge(Base64.decode((dades[i + 4]), Base64.DEFAULT));
                     llibres.add(llibre);
                 }
                 return true;

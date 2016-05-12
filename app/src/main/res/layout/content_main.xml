@@ -53,7 +53,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/emptylist"
+        android:text="@string/other_empty_list"
         android:id="@+id/EmptyList"
         android:visibility="gone" />
 

@@ -91,11 +91,13 @@
     <string name="surname">Surname</string>
     <string name="birthdate">Birth date</string>
     <string name="emptylist">Don\'t own any book</string>
+    <string name="other_empty_list">Not a book matchs this criteria</string>
 
     <!--book data-->
     <string name="title">Title:</string>
     <string name="author">Author:</string>
     <string name="publishdate">Publish date:</string>
+    <string name="user">User:</string>
 
     <!-- Strings related to password -->
     <string name="prompt_old_password">Old password</string>

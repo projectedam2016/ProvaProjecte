@@ -109,6 +109,7 @@
     <string name="title">Título:</string>
     <string name="author">Autor:</string>
     <string name="publishdate">Fecha de publicación:</string>
+    <string name="user">Usuario:</string>
     <!--modify-->
     <string name="modify">Si abandonas la pagina perderas todos los cambios.¿Estas seguro?</string>
     <string name="yes">Si</string>

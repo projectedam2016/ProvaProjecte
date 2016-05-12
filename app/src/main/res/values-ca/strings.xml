@@ -93,6 +93,7 @@
     <string name="title">Títol:</string>
     <string name="author">Autor:</string>
     <string name="publishdate">Data de publicació:</string>
+    <string name="user">Usuari:</string>
 
     <!-- Strings related to password -->
     <string name="prompt_password">Contrassenya</string>

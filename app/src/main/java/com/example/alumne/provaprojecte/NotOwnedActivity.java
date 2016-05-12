@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,8 +28,9 @@ import java.net.URLEncoder;
 
 public class NotOwnedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView titol, autor,any, isbn;
+    TextView titol, autor,any, isbn,user;
     ImageView imageView;
+    static String username;
     static Llibre llibre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,13 @@ public class NotOwnedActivity extends AppCompatActivity
         autor=(TextView)findViewById(R.id.AutorTextData);
         any=(TextView)findViewById(R.id.AnyTextData);
         isbn= (TextView)findViewById(R.id.ISBNTextData);
+        user=(TextView)findViewById(R.id.userLink);
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("android.intent.action.UserActivity"));
+            }
+        });
         llibre=new Llibre();
     }
 
@@ -160,6 +169,8 @@ public class NotOwnedActivity extends AppCompatActivity
                 String[] dadesdata=dades[2].split("-");
                 llibre.setAny(dadesdata[2] + "/" + dadesdata[1] + "/" + dadesdata[0]);
                 llibre.setImatge(Base64.decode((dades[4]), Base64.DEFAULT));
+                llibre.setUsuari(dades[5]);
+                username=dades[6];
                 return true;
             } catch (Exception e) {
                 return false;
@@ -176,6 +187,7 @@ public class NotOwnedActivity extends AppCompatActivity
             isbn.setText("  " +llibre.getIsbn());
             imageView.setImageBitmap(BitmapFactory
                     .decodeByteArray(llibre.getImatge(),0,llibre.getImatge().length));
+            user.setText(username);
 
         }
 
