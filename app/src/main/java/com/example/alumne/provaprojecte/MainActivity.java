@@ -171,6 +171,18 @@ public class MainActivity extends AppCompatActivity
             } else {
                 startActivity(new Intent("android.intent.action.VisitorActivity"));
             }
+        }else if (id == R.id.nav_marked) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.MarkedBookActivity"));
+            }else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
+        }else if (id == R.id.nav_own_marked) {
+            if (LoginActivity.user) {
+            startActivity(new Intent("android.intent.action.OwnedMarkedActivity"));
+            }else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

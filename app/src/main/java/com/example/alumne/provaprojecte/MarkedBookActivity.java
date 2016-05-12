@@ -144,20 +144,19 @@ public class MarkedBookActivity extends AppCompatActivity implements NavigationV
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_search) {
-            startActivity(new Intent("android.intent.action.MainActivity"));
             finish();
         } else if (id == R.id.nav_profile) {
-            if (LoginActivity.user)
-                startActivity(new Intent("android.intent.action.ProfileActivity"));
-            else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+            startActivity(new Intent("android.intent.action.ProfileActivity"));
+            finish();
         } else if (id == R.id.nav_add) {
-            if (LoginActivity.user) {
-                startActivity(new Intent("android.intent.action.AddActivity"));
-            } else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+            startActivity(new Intent("android.intent.action.AddActivity"));
+            finish();
+        }else if (id == R.id.nav_marked) {
+            startActivity(new Intent("android.intent.action.MarkedBookActivity"));
+            finish();
+        }else if (id == R.id.nav_own_marked) {
+            startActivity(new Intent("android.intent.action.OwnedMarkedActivity"));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -188,6 +188,18 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             ModifyActivity.context.clear();
             ModifyActivity.context.add(this);
             ModifyActivity.context.add(ProfileActivity.estat);
+        }else if (id == R.id.nav_marked) {
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=new Intent("android.intent.action.MarkedBookActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(ProfileActivity.estat);
+        }else if (id == R.id.nav_own_marked) {
+            startActivity(new Intent("android.intent.action.ModifyActivity"));
+            ModifyActivity.intent=new Intent("android.intent.action.OwnedMarkedActivity");
+            ModifyActivity.context.clear();
+            ModifyActivity.context.add(this);
+            ModifyActivity.context.add(ProfileActivity.estat);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -98,9 +98,13 @@ public class NotOwnedActivity extends AppCompatActivity
             startActivity(new Intent("android.intent.action.SettingsActivity"));
             return true;
         } else if (id == R.id.action_logout) {
-            startActivity(new Intent("android.intent.action.LoginActivity"));
-            finish();
-            ((Activity) MainActivity.estat).finish();
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.LoginActivity"));
+                finish();
+                ((Activity) MainActivity.estat).finish();
+            } else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -126,6 +130,18 @@ public class NotOwnedActivity extends AppCompatActivity
             }
             else{
                 startActivity(new Intent("android.intent.action.VisitorActivity"));}
+        }else if (id == R.id.nav_marked) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.MarkedBookActivity"));
+            }else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
+        }else if (id == R.id.nav_own_marked) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.OwnedMarkedActivity"));
+            }else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

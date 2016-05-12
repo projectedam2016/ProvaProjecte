@@ -113,11 +113,30 @@ public class UserActivity extends AppCompatActivity
         if (id == R.id.nav_search) {
             finish();
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent("android.intent.action.ProfileActivity"));
-            finish();
-        } else if (id == R.id.nav_add) {
-            startActivity(new Intent("android.intent.action.AddActivity"));
-            finish();
+            if(LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.ProfileActivity"));
+                finish();
+            }else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));}
+        } else if(id==R.id.nav_add){
+            if(LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.AddActivity"));
+                finish();
+            }
+            else{
+                startActivity(new Intent("android.intent.action.VisitorActivity"));}
+        }else if (id == R.id.nav_marked) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.MarkedBookActivity"));
+            }else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
+        }else if (id == R.id.nav_own_marked) {
+            if (LoginActivity.user) {
+                startActivity(new Intent("android.intent.action.OwnedMarkedActivity"));
+            }else {
+                startActivity(new Intent("android.intent.action.VisitorActivity"));
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

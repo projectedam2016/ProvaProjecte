@@ -40,6 +40,7 @@ public class OwnedMarkedActivity extends AppCompatActivity implements Navigation
     static ArrayList<Llibre> llibres;
     Button cerca;
     Spinner tipuscerca;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,7 @@ public class OwnedMarkedActivity extends AppCompatActivity implements Navigation
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 idllibre = llibres.get(position).getId();
-                if ((llibres.get(position).getUsuari().equals(LoginActivity.dades) || LoginActivity.superu)&&LoginActivity.user) {
+                if ((llibres.get(position).getUsuari().equals(LoginActivity.dades) || LoginActivity.superu) && LoginActivity.user) {
                     OwnedActivity.id = idllibre;
                     startActivity(new Intent("android.intent.action.OwnedActivity"));
                 } else {
@@ -78,16 +79,17 @@ public class OwnedMarkedActivity extends AppCompatActivity implements Navigation
         cerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(textCerca.getText().length()==0){
+                if (textCerca.getText().length() == 0) {
                     ListTask task = new ListTask();
-                    task.execute();}
+                    task.execute();
+                }
             }
         });
         textCerca.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.searchBookText || id == EditorInfo.IME_NULL) {
-                    if(textView.getText().toString().length()==0){
+                    if (textView.getText().toString().length() == 0) {
                         ListTask task = new ListTask();
                         task.execute();
                     }
@@ -147,17 +149,17 @@ public class OwnedMarkedActivity extends AppCompatActivity implements Navigation
             startActivity(new Intent("android.intent.action.MainActivity"));
             finish();
         } else if (id == R.id.nav_profile) {
-            if (LoginActivity.user)
-                startActivity(new Intent("android.intent.action.ProfileActivity"));
-            else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+            startActivity(new Intent("android.intent.action.ProfileActivity"));
+            finish();
         } else if (id == R.id.nav_add) {
-            if (LoginActivity.user) {
-                startActivity(new Intent("android.intent.action.AddActivity"));
-            } else {
-                startActivity(new Intent("android.intent.action.VisitorActivity"));
-            }
+            startActivity(new Intent("android.intent.action.AddActivity"));
+            finish();
+        } else if (id == R.id.nav_marked) {
+            startActivity(new Intent("android.intent.action.MarkedBookActivity"));
+            finish();
+        } else if (id == R.id.nav_own_marked) {
+            startActivity(new Intent("android.intent.action.OwnedMarkedActivity"));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -179,11 +181,14 @@ public class OwnedMarkedActivity extends AppCompatActivity implements Navigation
         ListTask task = new ListTask();
         task.execute();
     }
+
     //La classe llegeix les dades necessaries de la base de dades per mostrar-les i per ús posterior de l'aplicació
     public class ListTask extends AsyncTask<Void, Void, Boolean> {
         String result;
+
         ListTask() {
         }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             //Llegeix tots els llibres de l'aplicació
