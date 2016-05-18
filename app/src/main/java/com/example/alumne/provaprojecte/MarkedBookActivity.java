@@ -28,7 +28,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-
+//Aquesta classe no es troba funcional
 public class MarkedBookActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     public static Context estat;
     ListView llistaMarcats;

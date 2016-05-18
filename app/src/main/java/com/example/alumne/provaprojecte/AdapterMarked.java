@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by alumne on 12/05/16.
  */
+//Aquesta classe no es troba funcional
 public class AdapterMarked extends ArrayAdapter<Marked> {
 
     int groupid;

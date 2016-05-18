@@ -3,6 +3,7 @@ package com.example.alumne.provaprojecte;
 /**
  * Created by alumne on 12/05/16.
  */
+//Aquesta classe no es troba funcional
 public class Marked {
     private String titol;
     private String usuari;
