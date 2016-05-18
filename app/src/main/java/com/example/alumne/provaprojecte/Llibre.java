@@ -3,6 +3,7 @@ package com.example.alumne.provaprojecte;
 /**
  * Created by alumne on 06/04/16.
  */
+//classe on guardar les dades del llibre
 public class Llibre {
     String nom;
     String autor;
