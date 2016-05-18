@@ -228,28 +228,25 @@ public class AddActivity extends AppCompatActivity
             return;
         }
 
-        // Reset errors.
+        // Reseteja errors.
         title.setError(null);
         isbn.setError(null);
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
+        // Mirar si ha omplert aquest camp i avisar en cas contrari
         if (TextUtils.isEmpty(title.getText().toString())) {
             title.setError(getString(R.string.error_field_required));
             focusView = title;
             cancel = true;
         }
-        // Check for a valid email address.
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            //si hi ha error marca on es troba
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+           //inicia background task per introduir llibre
             addTask = new AddTask();
             addTask.execute();
             finish();
